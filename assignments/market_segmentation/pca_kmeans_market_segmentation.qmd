@@ -1,0 +1,322 @@
+---
+title: "Market Segmentation - PCA & K-Means Clustering"
+author: "Collin Real"
+date: today
+output: html_document
+---
+
+### Import Libraries
+```{python}
+import os
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import scipy
+from sklearn.preprocessing import StandardScaler
+from scipy.cluster.hierarchy import dendrogram, linkage
+from sklearn.cluster import KMeans
+pd.set_option('display.max_columns', None)
+
+sns.set()
+```
+
+### Import Data
+```{python}
+df_customers = pd.read_csv('customers.csv')
+df_customers
+```
+
+### Descriptive Statistics
+```{python}
+df_customers.describe()
+```
+
+### Variable correlation
+```{python}
+df_customers.corr()
+```
+
+### Correlation - Heat Map
+```{python}
+plt.figure(figsize=(12, 9))
+s = sns.heatmap(df_customers.corr(),
+                annot=True,
+                cmap='RdBu',
+                vmin=-1,
+                vmax=1)
+s.set_xticklabels(s.get_xticklabels(), rotation=90)
+plt.title('Correlation Matrix')
+plt.show()
+```
+
+### Scatter Plot - Age vs. Income
+```{python}
+plt.figure(figsize=(12, 9))
+# plt.scatter(df_customers.iloc[:, 2], df_customers.iloc[:, 4])
+plt.scatter(df_customers['Age'], df_customers['Income'])
+plt.xlabel('Age')
+plt.ylabel('Income')
+```
+
+### Standardize the DataFrame
+```{python}
+scaler = StandardScaler()
+customers_std = scaler.fit_transform(df_customers)
+customers_std
+```
+
+### Hierarchical Clustering
+```{python}
+h_cluster = linkage(customers_std, method='ward')
+
+plt.figure(figsize=(12, 9))
+plt.xlabel('Observations')
+plt.ylabel('Distance')
+dendrogram(h_cluster,
+           show_leaf_counts=False,
+           no_labels=True)
+plt.show()
+```
+
+### K-Means Clustering
+```{python}
+results = {}
+
+for i in range (1, 11):
+    kmeans = KMeans(n_clusters=i, init='k-means++', random_state=42)
+    kmeans.fit(customers_std)
+    results[i] = kmeans.inertia_
+
+plt.figure(figsize=(12, 9))
+plt.plot(results.keys(), results.values(), marker='o', linestyle='--')
+plt.plot([0.7, 3.2], [12000, 7000], color='#FF8400')
+plt.plot([4.5, 9], [5700, 4000], color='#FF8400')
+plt.xlabel('Number of Clusters')
+plt.ylabel('Sum of squared distance')
+plt.show()
+```
+
+### K-Means Clustering - 4 Clusters
+```{python}
+kmeans = KMeans(n_clusters=4, init='k-means++', random_state=42)
+kmeans.fit(customers_std)
+
+df_customers_kmeans = df_customers.copy()
+df_customers_kmeans['Segment'] = kmeans.labels_
+df_customers_kmeans
+```
+
+### Characteristics of the people in each cluster
+```{python}
+df_customers_analysis = df_customers_kmeans.groupby('Segment').mean().round(3)
+df_customers_analysis
+```
+
+```{python}
+df_customers_analysis['Count'] = df_customers_kmeans[['Segment', 'Sex']].groupby('Segment').count()
+df_customers_analysis['%'] = df_customers_analysis['Count'] / df_customers_analysis['Count'].sum()
+df_customers_analysis.rename(index={
+    0: 'well-off',
+    1: 'fewer-opportunities',
+    2: 'standard',
+    3: 'career-focused'
+}, inplace=True)
+
+df_customers_analysis
+```
+
+```{python}
+plt.figure(figsize=(8, 6))
+s = sns.barplot(data=df_customers_analysis, x=df_customers_analysis.index, y='Count', palette=['g','c','r','m'])
+plt.xlabel('Segment')
+plt.ylabel('Population')
+plt.show()
+```
+
+
+### Assign Meaningful Labels to the segments
+```{python}
+df_customers_kmeans['Segment'] = df_customers_kmeans['Segment'].map({
+    0: 'well-off',
+    1: 'fewer-opportunities',
+    2: 'standard',
+    3: 'career-focused'
+})
+df_customers_kmeans
+```
+
+### Visualize the segmented customers
+```{python}
+colors = ['g','r','c','m']
+sns.set_palette(sns.color_palette("pastel"))
+plt.figure(figsize=(12, 8))
+sns.scatterplot(
+    x=df_customers_kmeans['Age'],
+    y=df_customers_kmeans['Income'],
+    hue=df_customers_kmeans['Segment'],
+    palette=colors
+)
+plt.scatter(62, 160000 , s=60000, facecolors='none', edgecolors='#FF8400' ) 
+plt.title('Age vs Income in each segment')
+
+plt.show()
+```
+
+### Education vs. Income
+```{python}
+plt.figure(figsize=(16, 8))
+sns.violinplot(
+    x=df_customers_kmeans['Education'],
+    y=df_customers_kmeans['Income'],
+    hue=df_customers_kmeans['Segment'],
+    palette=['g','r','c','m']
+)
+plt.title('Education vs Income in each segment')
+plt.show()
+```
+
+### Improve K-Means with PCA
+```{python}
+from sklearn.decomposition import PCA
+
+pca = PCA()
+pca.fit(customers_std)
+
+pca.explained_variance_ratio_
+```
+
+### Plot the cumulative sum of variability
+```{python}
+plt.figure(figsize=(12, 8))
+plt.plot(range(0, 8), pca.explained_variance_ratio_.cumsum(), marker='o', linestyle='--')
+plt.xlabel('Number of Components')
+plt.ylabel('Cumulative Explained Variance')
+```
+
+
+### Pick 3 Components from the PCA model
+```{python}
+pca = PCA(n_components=3)
+pca.fit(customers_std)
+
+df_pca_components = pd.DataFrame(
+    data=pca.components_.round(4),
+    columns=df_customers.columns.values,
+    index=['component 1', 'component 2', 'component 3'])
+
+df_pca_components
+```
+
+### Correlation Matrix of the 3 Components
+```{python}
+s = sns.heatmap(
+    df_pca_components,
+    vmin=-1,
+    vmax=1,
+    cmap='RdBu',
+    annot=True
+)
+plt.title('Correlation Matrix')
+plt.show()
+```
+
+### Implementing K-Means Clustering
+```{python}
+pca_scores = pca.transform(customers_std)
+
+results = {}
+
+for i in range(1, 11):
+    kmeans_pca = KMeans(n_clusters=i, init='k-means++', random_state=42)
+    kmeans_pca.fit(pca_scores)   # pca_scores are standarzied by default
+    results[i] = kmeans_pca.inertia_
+```
+
+```{python}
+plt.figure(figsize=(12, 8))
+plt.plot(results.keys(), results.values(), marker='o', linestyle='--')
+plt.xlabel('Number of Clusters')
+plt.ylabel('Sum of squared distance')
+plt.show()
+```
+
+### Implementing K-Means Clustering w/ 4 Clusters
+```{python}
+kmeans_pca = KMeans(n_clusters=4, init='k-means++', random_state=42)
+kmeans_pca.fit(pca_scores)
+```
+
+```{python}
+df_segm_pca = pd.concat([df_customers.reset_index(drop=True), pd.DataFrame(pca_scores)], axis=1)
+df_segm_pca.columns.values[-3:] = ['component 1', 'component 2', 'component 3']
+df_segm_pca['K-means PCA'] = kmeans_pca.labels_
+df_segm_pca.to_csv("customer_segment_pca.csv", encoding='utf-8', index=False)
+df_segm_pca
+```
+
+### Analyze Segmentation Results
+```{python}
+df_segm_pca_analysis = df_segm_pca.groupby(['K-means PCA']).mean().round(4)
+df_segm_pca_analysis
+```
+- Segment 0: low career and experience values with high education and lifestyle values.
+- Label: Standard
+- Segment 1: high career but low education, lifestyle and experience
+- Label: Career focused
+- Segment 2: low career, education and lifestyle, but high life experience
+- Label: Fewer opportunities
+- Segment 3: high career, education and lifestyle as well as high life experience
+- Label: Well-off
+
+```{python}
+df_segm_pca_analysis['Count'] = df_segm_pca[['K-means PCA', 'Sex']].groupby(['K-means PCA']).count()
+df_segm_pca_analysis['%'] = df_segm_pca_analysis['Count'] / df_segm_pca_analysis['Count'].sum()
+df_segm_pca_analysis.rename(index={
+    0: 'standard',
+    1: 'career-focused',
+    2: 'fewer-opportunities',
+    3: 'well-off'
+}, inplace=True)
+
+df_segm_pca_analysis
+```
+
+### Number of Customers per Segment
+```{python}
+plt.figure(figsize=(8, 6))
+s = sns.barplot(data=df_segm_pca_analysis, x=df_segm_pca_analysis.index, y='Count', palette=['g','c','r','m'])
+plt.xlabel('Segment')
+plt.ylabel('Population')
+plt.show()
+```
+
+### Add segment labels to original dataset
+```{python}
+df_segm_pca['Segment'] = df_segm_pca['K-means PCA'].map({
+    0: 'standard',
+    1: 'career-focused',
+    2: 'fewer-opportunities',
+    3: 'well-off'
+})
+df_segm_pca
+```
+
+### Visualize segments with respect to first two components
+```{python}
+plt.figure(figsize=(10, 8))
+sns.scatterplot(
+    x=df_segm_pca['component 2'],
+    y=df_segm_pca['component 1'],
+    hue=df_segm_pca['Segment'],
+    palette=['g','r','c','m']
+)
+plt.scatter(2.35, 2 , s=60000, facecolors='none', edgecolors='g' )
+plt.scatter(-1.2, 2 , s=60000, facecolors='none', edgecolors='y' )
+plt.scatter(-1, -1 , s=30000, facecolors='none', edgecolors='b' )
+plt.scatter(1.2, -1 , s=40000, facecolors='none', edgecolors='r' )
+
+plt.title('Component 1 vs Component 2')
+plt.show()
+```
+

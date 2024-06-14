@@ -1,0 +1,5 @@
+kaggle
+openai
+scrapingbee
+python-decouple
+youtube_transcript_api

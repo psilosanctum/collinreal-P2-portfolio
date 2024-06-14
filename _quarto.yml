@@ -18,6 +18,8 @@ website:
             file: presentation-exercise/presentation-exercise.qmd
           - text: "Tidy Tuesday Exercise"
             file: tidytuesday-exercise/tidytuesday-exercise.qmd
+          - text: "Market Segmentation - PCA ^& K-means Clustering"
+            file: assignments/market_segmentation/pca_kmeans_market_segmentation.qmd
     right:
       - icon: github 
         href: https://github.com/psilosanctum/collinreal-P2-portfolio        
