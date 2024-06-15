@@ -11,10 +11,14 @@ library(tidycensus)
 ```
 
 
+```{r}
+getwd()
+```
 
 ```{r}
 # Import Data, Check Descriptive Statistics & Data Types
-ev_data <- read.csv("/Users/c2cypher/codebase/msda/msda-grad-school/collinreal-P2-portfolio/starter-analysis-exercise/code/final_project/Electric_Vehicle_Population_Data.csv")
+data_location <- here::here("starter-analysis-exercise","code","final_project","Electric_Vehicle_Population_Data.csv")
+ev_data <- read.csv(data_location)
 summary(ev_data)
 dplyr::glimpse(ev_data)
 ```
@@ -27,9 +31,13 @@ print(num_duplicates)
 ```
 
 ```{r}
-# Count rows with no price data
-count_zero_msrp <- length(which(ev_data$Base.MSRP == 0))
-count_zero_msrp
+# Find total rows with MSRP prices
+count_zero_msrp = length(which(ev_data$Base.MSRP == 0))
+total_rows_count = nrow(ev_data)
+total_price_data_points = total_rows_count - count_zero_msrp
+print(paste0('Total rows: ', total_rows_count))
+print(paste0('Total Missing MSRP Prices: ', count_zero_msrp))
+print(paste0('Total Price Data Points: ', total_price_data_points))
 ```
 
 
@@ -46,9 +54,6 @@ max_msrp_outlier <- ev_data_filtered %>%
   group_by(Electric.Vehicle.Type) %>%
   summarise(max = max(Base.MSRP)) 
 max_msrp_outlier
-```
-
-```{r}
 filter_msrp_outlier <- ev_data_filtered %>%
   filter(Base.MSRP != 845000) %>%
   filter(Base.MSRP != 0)
@@ -56,48 +61,54 @@ filter_msrp_outlier
 ```
 
 ```{r}
-# Create a scatterplot with weight on the x-axis and the new numerical variable on the y-axis
+# Create a boxplot of price distribution by electric vehicle type
 p2_boxplot<-ggplot(filter_msrp_outlier, aes(x = Electric.Vehicle.Type, y = Base.MSRP)) +
   geom_boxplot() +
   labs(title = "Boxplot - Price Distribution vs. Electric Vehicle Type",
        x = "Electric Vehicle Type",
        y = "MSRP")
 p2_boxplot 
-# Save the scatterplot to a file
-# ggsave("scatterplot.png", plot = p_scatterplot)
 ```
 
 ```{r}
+# Clean data for plot
 price_by_state = ev_data_filtered %>% 
   group_by(Clean.Alternative.Fuel.Vehicle..CAFV..Eligibility) %>%
   filter(Base.MSRP != 0) %>%
   filter(Base.MSRP != 845000)
 
-# Create a scatterplot with weight on the x-axis and the new numerical variable on the y-axis
+# Create a boxplot for price distribution by alternative fuel eligibility
 p3_boxplot<-ggplot(price_by_state, aes(x = Clean.Alternative.Fuel.Vehicle..CAFV..Eligibility, y = Base.MSRP)) +
   geom_boxplot() +
-  labs(title = "Boxplot - Price Distribution vs. Electric Vehicle Type",
+  labs(title = "Boxplot - Price Distribution vs. Alt. Vehicle Eligibility",
        x = "Electric Vehicle Type",
        y = "MSRP")
 p3_boxplot 
 ```
 
 ```{r}
+# Clean data from plot
 price_by_state = ev_data_filtered %>% 
   group_by(Clean.Alternative.Fuel.Vehicle..CAFV..Eligibility) %>%
   filter(Electric.Range != 0) 
 
-# Create a scatterplot with weight on the x-axis and the new numerical variable on the y-axis
+# Create a boxplot
 p4_boxplot<-ggplot(price_by_state, aes(x = Clean.Alternative.Fuel.Vehicle..CAFV..Eligibility, y = Electric.Range)) +
   geom_boxplot() +
-  labs(title = "Boxplot - Price Distribution vs. Electric Vehicle Type",
-       x = "Alt. Fuel Vehicle",
-       y = "Drive Range")
+  labs(title = "Boxplot - Price Distribution vs. Electric Vehicle Type")
 p4_boxplot 
 ```
-
+```{r}
+# Create a boxplot with the new categorical variable on the x-axis and height on the y-axis
+p_boxplot<-ggplot(filter_msrp_outlier, aes(x = Make, y = Base.MSRP)) +
+  geom_boxplot() +
+  labs(title = "Boxplot - Price Distribution by Brand",
+       x = "Brand",
+       y = "Price")
+p_boxplot
+```
 ``` {r}
-# Create a scatterplot with weight on the x-axis and the new numerical variable on the y-axis
+# Create a scatterplot with electric vehicle range growth over time
 
 p_scatterplot<-ggplot(ev_data_filtered, aes(x = Model.Year, y = Electric.Range)) +
   geom_point() +
@@ -109,18 +120,9 @@ plot(p_scatterplot)
 # ggsave("scatterplot.png", plot = p_scatterplot)
 ```
 
-```{r}
-# Create a boxplot with the new categorical variable on the x-axis and height on the y-axis
-p_boxplot<-ggplot(filter_msrp_outlier, aes(x = Make, y = Base.MSRP)) +
-  geom_boxplot() +
-  labs(title = "Boxplot - Price Distribution by Brand",
-       x = "Brand",
-       y = "Price")
-p_boxplot
-```
 
 ``` {r}
-# Create a scatterplot with weight on the x-axis and the new numerical variable on the y-axis
+# Create a scatterplot - price vs. electric vehicle range correlation
 
 p_scatterplot<-ggplot(filter_msrp_outlier, aes(x = Electric.Range, y = Base.MSRP)) +
   geom_point() +
@@ -128,8 +130,6 @@ p_scatterplot<-ggplot(filter_msrp_outlier, aes(x = Electric.Range, y = Base.MSRP
        x = "Vehicle Range",
        y = "MSRP")
 plot(p_scatterplot)
-# Save the scatterplot to a file
-# ggsave("scatterplot.png", plot = p_scatterplot)
 ```
 
 ```{r}
