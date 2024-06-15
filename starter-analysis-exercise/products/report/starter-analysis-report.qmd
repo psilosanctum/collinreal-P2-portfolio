@@ -1,8 +1,8 @@
 ---
-title: "Demographic Impact on Investments"
+title: "Curiosity often leads to trouble"
 subtitle: ""
-author: Collin Real (yhi267)
-date: today
+author: 
+date: 
 format:
   html:
     toc: false

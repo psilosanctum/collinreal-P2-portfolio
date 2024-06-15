@@ -1,7 +1,7 @@
 ---
 title: "Example Manuscript Template for a Data Analysis Project"
 subtitle: ""
-author: Andreas Handel
+author: Sri Lakshmi Chundru, Collin Real, Joaquin Ramirez, Seth Harris
 date: "`r Sys.Date()`"
 format:
   docx:
@@ -59,8 +59,6 @@ str(data)
 head(data)
 summary(data)
 colSums(is.na(data))
-
-
 ```
 
 **- (c) Explain the question you want to answer using the data. What will be your outcome(s) of interest (if any)? What (if any) specific predictors will you focus on? What relations/patterns are you looking for in the data?**
@@ -235,7 +233,6 @@ These plots provide insights into the price and range variations of electric veh
 - Create bar charts, histograms, and pie charts to visualize distributions.
 - Use scatter plots and box plots to explore relationships between variables.
 - Generate geographic maps to visualize EV distribution across the state.
-
 
 **Comparative Analysis:**
 
