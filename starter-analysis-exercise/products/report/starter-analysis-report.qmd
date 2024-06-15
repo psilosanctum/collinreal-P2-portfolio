@@ -1,8 +1,7 @@
 ---
-title: "Curiosity often leads to trouble"
-subtitle: ""
-author: 
-date: 
+title: "Demographic Impact on Investment"
+author: "Collin Real"
+date: "today"
 format:
   html:
     toc: false
