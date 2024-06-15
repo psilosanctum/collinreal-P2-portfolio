@@ -53,4 +53,3 @@ print(lmtable2)
 table_file2 = here("starter-analysis-exercise","results", "tables-files", "resulttable2.rds")
 saveRDS(lmtable2, file = table_file2)
 
-  
