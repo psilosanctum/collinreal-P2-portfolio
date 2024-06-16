@@ -1,5 +1,265 @@
 ---
 title: "R Coding Exercise"
+author: "Collin Real"
+date: "today"
+execute: 
+  warning: false
+  error: true
+format:
+  html:
+    theme: "cyborg"
 ---
 
-Placeholder file for the future R coding exercise.
+## Loading and Checking Data
+### Import libraries
+```{r}
+library(dslabs) # to import dataset
+library(tidyverse) # data aggregation
+library(dplyr) # data aggregation? 
+data(gapminder)
+```
+
+### Help Function
+```{r}
+help("gapminder")
+```
+
+### Data Structure Overview
+```{r}
+str(gapminder)
+```
+### Data Summary
+```{r}
+summary(gapminder)
+```
+### Class Functions - Object Determination
+```{r}
+class(gapminder)
+```
+
+## Processing Data
+### Assign only African countries to a new object/variable.
+```{r}
+africadata = filter(gapminder, continent == 'Africa')
+head(africadata)
+```
+
+### Africa Data Structure Overview
+```{r}
+str(africadata)
+```
+### Africa Summary
+```{r}
+summary(africadata)
+```
+### African Infant Mortality Object
+```{r}
+infant_survival_rate = africadata %>%
+  select(infant_mortality, life_expectancy)
+head(infant_survival_rate)
+```
+
+### African Infant Mortality Data Structure
+```{r}
+str(infant_survival_rate)
+```
+
+### African Infant Mortality Data Summary
+```{r}
+summary(infant_survival_rate)
+```
+### African Mortality Object
+```{r}
+african_mortality = africadata %>%
+  select(population, life_expectancy)
+head(african_mortality)
+```
+
+### African Mortality Data Structure
+```{r}
+str(african_mortality)
+```
+
+### African Mortality Data Summary
+```{r}
+summary(african_mortality)
+```
+## Plotting
+### Life Expectancy as a Function of Infant Mortality
+```{r}
+regression = lm(infant_survival_rate$life_expectancy ~ infant_survival_rate$infant_mortality)
+rsq <- function(x, y) summary(lm(infant_survival_rate$life_expectancy ~ infant_survival_rate$infant_mortality))$r.squared
+r_square = round(rsq(obs, mod), 3)
+# summary(regression)$coefficients - keep to sanity check
+coeff = round(summary(regression)$coefficients[2],3)
+y_int = round(summary(regression)$coefficients[1],3)
+plot(
+  infant_survival_rate$infant_mortality,
+  infant_survival_rate$life_expectancy,
+  main='African Life Expectancy \n Infant Mortality Effect',
+  xlab='Infant Mortality',
+  ylab='Life Expectancy',
+   col='blue', 
+   bg='lightblue', 
+   pch = 21,
+)
+# rsq_str = expression(paste("r"^"2:"))
+rsq_str = "r2: "
+text(175, 75, paste0('y = ', coeff, 'x + ', y_int), cex=0.75)
+text(170, 70, paste0(rsq_str, r_square), cex=0.75)
+abline(
+  lm(
+    infant_survival_rate$life_expectancy ~ infant_survival_rate$infant_mortality),
+  col='black',
+  lwd=1.75)
+```
+
+### Life Expectancy as a Function of Population
+```{r}
+regression = lm(african_mortality$life_expectancy ~ african_mortality$population)
+rsq <- function(x, y) summary(lm(african_mortality$life_expectancy ~ african_mortality$population))$r.squared
+r_square = round(rsq(obs, mod), 3)
+# summary(regression)$coefficients - keep to sanity check
+coeff = round(summary(regression)$coefficients[2],9)
+y_int = round(summary(regression)$coefficients[1],3)
+plot(
+  african_mortality$population,
+  african_mortality$life_expectancy,
+  main='African Life Expectancy \n Population Effect',
+  xlab='Population',
+  ylab='Life Expectancy',
+  col='blue', 
+  bg='lightblue', 
+  pch = 21,
+)
+# rsq_str = expression(paste("r"^"2:"))
+rsq_str = "r2: "
+text(155000000, 75, paste0('y = ', coeff, 'x + ', y_int), cex=0.75)
+text(155000000, 70, paste0(rsq_str, r_square), cex=0.75)
+abline(
+lm(
+  african_mortality$life_expectancy ~ african_mortality$population),
+col='black',
+lwd=1.75)
+```
+
+** STILL NEED TO ANSWER QUESTION AT THE END OF THE PLOTTING SECTION**
+
+## More Data Processing
+### Missing Years For Infant Mortality Data
+```{r}
+miss_inf_mort_rows = africadata %>%
+  filter(is.na(infant_mortality))
+head(miss_inf_mort_rows)
+```
+
+### Perform Year Groupby to Identify Distinct Missing Years
+```{r}
+miss_inf_mort_yrs = miss_inf_mort_rows %>%
+  group_by(year) %>%
+  count(infant_mortality)
+miss_inf_mort_yrs
+```
+
+### Extract Only Year 2000 From africadata As New Object
+```{r}
+africadata2000 = filter(africadata, year == 2000)
+africadata2000
+```
+### africadata2000 Data Structure
+```{r}
+str(africadata2000)
+```
+### africadata2000 Data Summary
+```{r}
+summary(africadata2000)
+```
+
+## More Plotting
+### Create The Same Plots For africadata2000 Object
+#### Filter New Object to Create Graph Datasets (1/2)
+```{r}
+african_mortality2000 = africadata2000 %>%
+  select(population, life_expectancy)
+head(african_mortality2000)
+```
+#### Filter New Object to Create Graph Datasets (2/2)
+```{r}
+infant_survival_rate2000 = africadata2000 %>%
+  select(infant_mortality, life_expectancy)
+head(african_mortality2000)
+```
+
+
+#### Infant Mortality Effect
+```{r}
+regression = lm(infant_survival_rate2000$life_expectancy ~ infant_survival_rate2000$infant_mortality)
+rsq <- function(x, y) summary(lm(infant_survival_rate2000$life_expectancy ~ infant_survival_rate2000$infant_mortality))$r.squared
+r_square = round(rsq(obs, mod), 3)
+# summary(regression)$coefficients - keep to sanity check
+coeff = round(summary(regression)$coefficients[2],3)
+y_int = round(summary(regression)$coefficients[1],3)
+plot(
+  infant_survival_rate2000$infant_mortality,
+  infant_survival_rate2000$life_expectancy,
+  main='African Life Expectancy \n Infant Mortality Effect',
+  xlab='Infant Mortality',
+  ylab='Life Expectancy',
+   col='blue', 
+   bg='lightblue', 
+   pch = 21,
+)
+# rsq_str = expression(paste("r"^"2:"))
+rsq_str = "r2: "
+text(130, 75, paste0('y = ', coeff, 'x + ', y_int), cex=0.75)
+text(130, 73, paste0(rsq_str, r_square), cex=0.75)
+abline(
+  lm(
+    infant_survival_rate2000$life_expectancy ~ infant_survival_rate2000$infant_mortality),
+  col='black',
+  lwd=1.75)
+```
+
+#### Population Effect
+```{r}
+regression = lm(african_mortality2000$life_expectancy ~ african_mortality2000$population)
+rsq <- function(x, y) summary(lm(african_mortality2000$life_expectancy ~ african_mortality2000$population))$r.squared
+r_square = round(rsq(obs, mod), 3)
+# summary(regression)$coefficients - keep to sanity check
+coeff = round(summary(regression)$coefficients[2],9)
+y_int = round(summary(regression)$coefficients[1],3)
+plot(
+  african_mortality2000$population,
+  african_mortality2000$life_expectancy,
+  main='African Life Expectancy \n Population Effect',
+  xlab='Population',
+  ylab='Life Expectancy',
+  col='blue', 
+  bg='lightblue', 
+  pch = 21,
+)
+# rsq_str = expression(paste("r"^"2:"))
+rsq_str = "r2: "
+text(110000000, 75, paste0('y = ', coeff, 'x + ', y_int), cex=0.75)
+text(110000000, 73, paste0(rsq_str, r_square), cex=0.75)
+abline(
+lm(
+  african_mortality2000$life_expectancy ~ african_mortality2000$population),
+col='black',
+lwd=1.75)
+```
+
+## Simple Model Fits
+### Fit Life Expectancy to Infant Mortality
+```{r}
+fit1 = lm(infant_survival_rate2000$life_expectancy ~ infant_survival_rate2000$infant_mortality)
+summary(fit1)
+```
+### Fit Life Expectancy to Population
+```{r}
+fit2 = lm(african_mortality2000$life_expectancy ~ african_mortality2000$population)
+summary(fit2)
+```
+#### Conclusion
+
+
