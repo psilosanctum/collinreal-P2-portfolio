@@ -264,3 +264,153 @@ summary(fit2)
 #### Conclusion
 Our fit1 model's (i.e. fit life expectancy to infant mortality) independent variable has a p-value less than the significance level, so we reject the null hypothesis and conclude that infant mortality has a significant effect on life expectancy. For every infant death, life expectancy reduces by 0.18916
 Our fit2 model's (i.e. fit life expectancy to population) independent variable has a p-value greater than the significance level, so we do not reject the null hypothesis and conclude that population does not have a significant effect on life expectancy. 
+
+### **This section contributed by SETH HARRIS.**
+
+-   **Loading and Exploring the Dataset**:
+
+    -   Loaded the `dslabs` package and the `trump_tweets` dataset.
+
+    -   Explored the dataset using `str()`, `summary()`, and `head()` functions.
+
+```{r}
+# Load the dslabs package
+library(dslabs)
+
+# Load the trump_tweets dataset
+data("trump_tweets")
+
+# Explore the dataset
+str(trump_tweets)
+summary(trump_tweets)
+head(trump_tweets)
+```
+
+After reviewing the data sets available, I selected the "trump_tweets" dataset for further exploration. This data set contains all tweets from Donald Trump's Twitter account from 2009 to 2017. Additionally, the results of a sentiment analysis, conducted on tweets from the campaign period (2015-06-17 to 2016-11-08), are included in sentiment_counts. The goal of exploring the trump_tweets dataset is to analyze and understand patterns and trends in the tweets made by former U.S. President Donald Trump. This analysis can provide insights into the topics he tweeted about, the frequency and timing of his tweets, the sentiment expressed in his tweets, and how his tweeting behavior changed over time. By examining this dataset, we can gain a better understanding of his communication strategy on social media and its potential impact on public opinion and political discourse.
+
+**Data Cleaning and Processing**:
+
+-   Removed rows with missing values using `na.omit()`.
+
+-   Converted the `created_at` column to Date format.
+
+```{r}
+# Do any processing/cleaning (e.g., removing rows with missing values)
+trump_tweets_clean <- na.omit(trump_tweets) # Remove rows with missing values
+
+# Convert the date column to Date format
+trump_tweets_clean$created_at <- as.Date(trump_tweets_clean$created_at)
+```
+
+**Exploratory Data Analysis**:
+
+-   Created a histogram plot to visualize the number of tweets over time.
+
+```{r}
+# Make a few exploratory figures
+library(ggplot2)
+
+# Plot the number of tweets over time
+ggplot(trump_tweets_clean, aes(x = created_at)) +
+  geom_histogram(binwidth = 30, fill = "blue", color = "white") +
+  labs(title = "Number of Trump Tweets Over Time", x = "Date", y = "Number of Tweets")
+# Finding: This plot shows the distribution of Trump's tweets over time. We can see spikes in activity around certain periods, indicating increased tweeting during those times.
+```
+
+From the plot "Number of Trump Tweets Over Time," we observe a few key trends:
+
+1.  **Peak Activity:** There is a significant peak in tweet activity around the year 2013, indicating a period when Trump was highly active on Twitter.
+2.  **Fluctuations:** There are notable fluctuations in tweet frequency over time, with periods of high and low activity.
+3.  **Drop in Activity:** After 2014, there is a marked decline in tweet frequency, with very few tweets observed after 2016.
+
+These trends can be indicative of changes in Trump's social media strategy or other external factors influencing his tweet activity.
+
+**Exploratory Data Analysis**:
+
+-   Created a bar plot to visualize the distribution of tweet sources.
+
+```{r}
+# Plot the distribution of tweet sources
+ggplot(trump_tweets_clean, aes(x = source)) +
+  geom_bar(fill = "red") +
+  labs(title = "Distribution of Trump Tweet Sources", x = "Source", y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+# Finding: This plot shows the different sources from which Trump tweeted. It gives us an idea of the platforms he used most frequently for tweeting.
+```
+
+Based on the plot above "Distribution of Trump Tweet Sources," we can observe the following:
+
+1.  **Twitter Web Client** is the most frequently used source, with a count exceeding 1500 tweets.
+2.  **Twitter for Android** is the second most common source, with around 500 tweets.
+3.  Other sources like **TweetDeck**, **TwitLonger Beta**, and **Twitter for iPhone** have a much lower count.
+4.  The plot also includes less frequently used sources like **Mobile Web (M5)**, **Twitter for BlackBerry**, **Twitter for iPad**, and **Twitter QandA**.
+
+This distribution indicates that the majority of tweets were posted using the Twitter Web Client and Android platforms.
+
+**Statistical Modeling**:
+
+-   Performed linear regression to analyze the relationship between the number of retweets and favorites.
+
+-   Performed linear regression to analyze the relationship between tweet length and the number of favorites.
+
+```{r}
+# Run some simple statistical models
+# Model 1: Linear regression of the number of favorites based on the number of retweets
+model1 <- lm(favorite_count ~ retweet_count, data = trump_tweets_clean)
+summary(model1)
+# Finding: This model examines the relationship between the number of retweets and the number of favorites. The summary provides information on the strength and significance of this relationship.
+
+# Model 2: Linear regression of the number of favorites based on the length of the tweet
+trump_tweets_clean$text_length <- nchar(trump_tweets_clean$text)
+model2 <- lm(favorite_count ~ text_length, data = trump_tweets_clean)
+summary(model2)
+# Finding: This model examines the relationship between the length of a tweet and the number of favorites. The summary provides insights into whether longer tweets tend to receive more favorites.
+
+# Report the results from the models
+cat("Model 1: Linear regression of the number of favorites based on the number of retweets\n")
+print(summary(model1))
+
+cat("Model 2: Linear regression of the number of favorites based on the length of the tweet\n")
+print(summary(model2))
+```
+
+### Model 1: Linear regression of the number of favorites based on the number of retweets
+
+**Summary**: - **Intercept**: 128.44 (p = 0.0611) - **Slope (retweet_count)**: 3.39 (p \< 2e-16)
+
+**Findings**: - Strong positive relationship between retweets and favorites. - High R-squared value (0.8137), indicating 81.37% of the variability in favorites is explained by retweets. - Significant model (p-value \< 2.2e-16).
+
+### Model 2: Linear regression of the number of favorites based on the length of the tweet
+
+**Summary**: - **Intercept**: -1763.26 (p \< 2e-16) - **Slope (text_length)**: 54.01 (p \< 2e-16)
+
+**Findings**: - Positive relationship between tweet length and favorites. - Low R-squared value (0.0695), indicating 6.95% of the variability in favorites is explained by tweet length. - Significant model (p-value \< 2.2e-16).
+
+### Comments on Findings:
+
+-   **Model 1**: The number of retweets is a strong predictor of the number of favorites, with a high R-squared value and statistically significant coefficients. This suggests that tweets with higher retweets tend to receive more favorites.
+-   **Model 2**: The length of the tweet has a weaker relationship with the number of favorites, as indicated by the lower R-squared value. While the model is statistically significant, it explains less of the variability in the number of favorites compared to retweets.
+
+These findings suggest that while both retweets and tweet length can influence the number of favorites, retweets are a much stronger predictor.
+
+**Reporting Findings**:
+
+-   Analyzed and reported the results of the linear regression models, highlighting key statistics and the significance of the predictors.
+
+By following these steps, we were able to gain insights into the patterns and predictors of tweet engagement in the Trump_Tweets dataset.
+
+### Conclusion
+
+The analysis of the Trump Tweets dataset reveals several interesting insights:
+
+1.  **Tweet Frequency Over Time**: The histogram plot shows a significant increase in the number of tweets around mid-2013, with a peak and subsequent decline by early 2014. This trend may correlate with specific events or increased activity during that period.
+
+2.  **Tweet Sources**: The majority of Trump's tweets were sent from the "Twitter Web Client," followed by "Twitter for Android." This suggests a preference for these platforms.
+
+3.  **Statistical Models**:
+
+    -   **Model 1**: There is a strong positive relationship between the number of retweets and the number of favorites, with a high R-squared value of 0.8137. This indicates that retweets are a strong predictor of favorites.
+    -   **Model 2**: The length of the tweet also positively correlates with the number of favorites but to a much lesser extent, with an R-squared value of 0.0695. While statistically significant, tweet length explains much less variability in favorites compared to retweets.
+
+In summary, the number of retweets is a strong indicator of the popularity of Trump's tweets, significantly more so than the length of the tweet. This analysis provides insights into the factors influencing the engagement levels of tweets from this dataset.
+
