@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.3.353">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,8 +91,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-submit-button-title": "Submit"
   }
 }</script>
 
@@ -892,9 +891,303 @@ F-statistic: 0.2549 on 1 and 49 DF,  p-value: 0.6159</code></pre>
 </div>
 <section id="conclusion" class="level4">
 <h4 class="anchored" data-anchor-id="conclusion">Conclusion</h4>
-
-
+<p>Our fit1 model’s (i.e.&nbsp;fit life expectancy to infant mortality) independent variable has a p-value less than the significance level, so we reject the null hypothesis and conclude that infant mortality has a significant effect on life expectancy. For every infant death, life expectancy reduces by 0.18916 Our fit2 model’s (i.e.&nbsp;fit life expectancy to population) independent variable has a p-value greater than the significance level, so we do not reject the null hypothesis and conclude that population does not have a significant effect on life expectancy.</p>
 </section>
+</section>
+<section id="this-section-contributed-by-seth-harris." class="level3">
+<h3 class="anchored" data-anchor-id="this-section-contributed-by-seth-harris."><strong>This section contributed by SETH HARRIS.</strong></h3>
+<ul>
+<li><p><strong>Loading and Exploring the Dataset</strong>:</p>
+<ul>
+<li><p>Loaded the <code>dslabs</code> package and the <code>trump_tweets</code> dataset.</p></li>
+<li><p>Explored the dataset using <code>str()</code>, <code>summary()</code>, and <code>head()</code> functions.</p></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the dslabs package</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the trump_tweets dataset</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"trump_tweets"</span>)</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Explore the dataset</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(trump_tweets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   20761 obs. of  8 variables:
+ $ source                 : chr  "Twitter Web Client" "Twitter Web Client" "Twitter Web Client" "Twitter Web Client" ...
+ $ id_str                 : chr  "6971079756" "6312794445" "6090839867" "5775731054" ...
+ $ text                   : chr  "From Donald Trump: Wishing everyone a wonderful holiday &amp; a happy, healthy, prosperous New Year. Let’s think li"| __truncated__ "Trump International Tower in Chicago ranked 6th tallest building in world by Council on Tall Buildings &amp; Urban "| __truncated__ "Wishing you and yours a very Happy and Bountiful Thanksgiving!" "Donald Trump Partners with TV1 on New Reality Series Entitled, Omarosa's Ultimate Merger: http://tinyurl.com/yk5m3lc" ...
+ $ created_at             : POSIXct, format: "2009-12-23 12:38:18" "2009-12-03 14:39:09" ...
+ $ retweet_count          : int  28 33 13 5 7 4 2 4 1 22 ...
+ $ in_reply_to_user_id_str: chr  NA NA NA NA ...
+ $ favorite_count         : int  12 6 11 3 6 5 2 10 4 30 ...
+ $ is_retweet             : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(trump_tweets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    source             id_str              text          
+ Length:20761       Length:20761       Length:20761      
+ Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character  
+                                                         
+                                                         
+                                                         
+   created_at                     retweet_count    in_reply_to_user_id_str
+ Min.   :2009-05-04 13:54:25.00   Min.   :     0   Length:20761           
+ 1st Qu.:2013-02-13 14:15:54.00   1st Qu.:    34   Class :character       
+ Median :2014-05-03 07:07:38.00   Median :   264   Mode  :character       
+ Mean   :2014-08-02 16:29:32.18   Mean   :  3854                          
+ 3rd Qu.:2016-02-13 20:17:51.00   3rd Qu.:  3267                          
+ Max.   :2018-01-01 08:37:52.00   Max.   :369530                          
+ favorite_count   is_retweet     
+ Min.   :     0   Mode :logical  
+ 1st Qu.:    22   FALSE:20761    
+ Median :   173                  
+ Mean   : 13591                  
+ 3rd Qu.:  8573                  
+ Max.   :633253                  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(trump_tweets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              source     id_str
+1 Twitter Web Client 6971079756
+2 Twitter Web Client 6312794445
+3 Twitter Web Client 6090839867
+4 Twitter Web Client 5775731054
+5 Twitter Web Client 5364614040
+6 Twitter Web Client 5203117820
+                                                                                                                                        text
+1       From Donald Trump: Wishing everyone a wonderful holiday &amp; a happy, healthy, prosperous New Year. Let’s think like champions in 2010!
+2 Trump International Tower in Chicago ranked 6th tallest building in world by Council on Tall Buildings &amp; Urban Habitat http://bit.ly/sqvQq
+3                                                                             Wishing you and yours a very Happy and Bountiful Thanksgiving!
+4                       Donald Trump Partners with TV1 on New Reality Series Entitled, Omarosa's Ultimate Merger: http://tinyurl.com/yk5m3lc
+5                         --Work has begun, ahead of schedule, to build the greatest golf course in history: Trump International – Scotland.
+6              --From Donald Trump: "Ivanka and Jared’s wedding was spectacular, and they make a beautiful couple. I’m a very proud father."
+           created_at retweet_count in_reply_to_user_id_str favorite_count
+1 2009-12-23 12:38:18            28                    &lt;NA&gt;             12
+2 2009-12-03 14:39:09            33                    &lt;NA&gt;              6
+3 2009-11-26 14:55:38            13                    &lt;NA&gt;             11
+4 2009-11-16 16:06:10             5                    &lt;NA&gt;              3
+5 2009-11-02 09:57:56             7                    &lt;NA&gt;              6
+6 2009-10-27 10:31:48             4                    &lt;NA&gt;              5
+  is_retweet
+1      FALSE
+2      FALSE
+3      FALSE
+4      FALSE
+5      FALSE
+6      FALSE</code></pre>
+</div>
+</div>
+<p>After reviewing the data sets available, I selected the “trump_tweets” dataset for further exploration. This data set contains all tweets from Donald Trump’s Twitter account from 2009 to 2017. Additionally, the results of a sentiment analysis, conducted on tweets from the campaign period (2015-06-17 to 2016-11-08), are included in sentiment_counts. The goal of exploring the trump_tweets dataset is to analyze and understand patterns and trends in the tweets made by former U.S. President Donald Trump. This analysis can provide insights into the topics he tweeted about, the frequency and timing of his tweets, the sentiment expressed in his tweets, and how his tweeting behavior changed over time. By examining this dataset, we can gain a better understanding of his communication strategy on social media and its potential impact on public opinion and political discourse.</p>
+<p><strong>Data Cleaning and Processing</strong>:</p>
+<ul>
+<li><p>Removed rows with missing values using <code>na.omit()</code>.</p></li>
+<li><p>Converted the <code>created_at</code> column to Date format.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Do any processing/cleaning (e.g., removing rows with missing values)</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>trump_tweets_clean <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(trump_tweets) <span class="co"># Remove rows with missing values</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the date column to Date format</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>trump_tweets_clean<span class="sc">$</span>created_at <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(trump_tweets_clean<span class="sc">$</span>created_at)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Exploratory Data Analysis</strong>:</p>
+<ul>
+<li>Created a histogram plot to visualize the number of tweets over time.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a few exploratory figures</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the number of tweets over time</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(trump_tweets_clean, <span class="fu">aes</span>(<span class="at">x =</span> created_at)) <span class="sc">+</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Number of Trump Tweets Over Time"</span>, <span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span> <span class="st">"Number of Tweets"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="coding-exercise_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Finding: This plot shows the distribution of Trump's tweets over time. We can see spikes in activity around certain periods, indicating increased tweeting during those times.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>From the plot “Number of Trump Tweets Over Time,” we observe a few key trends:</p>
+<ol type="1">
+<li><strong>Peak Activity:</strong> There is a significant peak in tweet activity around the year 2013, indicating a period when Trump was highly active on Twitter.</li>
+<li><strong>Fluctuations:</strong> There are notable fluctuations in tweet frequency over time, with periods of high and low activity.</li>
+<li><strong>Drop in Activity:</strong> After 2014, there is a marked decline in tweet frequency, with very few tweets observed after 2016.</li>
+</ol>
+<p>These trends can be indicative of changes in Trump’s social media strategy or other external factors influencing his tweet activity.</p>
+<p><strong>Exploratory Data Analysis</strong>:</p>
+<ul>
+<li>Created a bar plot to visualize the distribution of tweet sources.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the distribution of tweet sources</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(trump_tweets_clean, <span class="fu">aes</span>(<span class="at">x =</span> source)) <span class="sc">+</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Trump Tweet Sources"</span>, <span class="at">x =</span> <span class="st">"Source"</span>, <span class="at">y =</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="coding-exercise_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Finding: This plot shows the different sources from which Trump tweeted. It gives us an idea of the platforms he used most frequently for tweeting.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Based on the plot above “Distribution of Trump Tweet Sources,” we can observe the following:</p>
+<ol type="1">
+<li><strong>Twitter Web Client</strong> is the most frequently used source, with a count exceeding 1500 tweets.</li>
+<li><strong>Twitter for Android</strong> is the second most common source, with around 500 tweets.</li>
+<li>Other sources like <strong>TweetDeck</strong>, <strong>TwitLonger Beta</strong>, and <strong>Twitter for iPhone</strong> have a much lower count.</li>
+<li>The plot also includes less frequently used sources like <strong>Mobile Web (M5)</strong>, <strong>Twitter for BlackBerry</strong>, <strong>Twitter for iPad</strong>, and <strong>Twitter QandA</strong>.</li>
+</ol>
+<p>This distribution indicates that the majority of tweets were posted using the Twitter Web Client and Android platforms.</p>
+<p><strong>Statistical Modeling</strong>:</p>
+<ul>
+<li><p>Performed linear regression to analyze the relationship between the number of retweets and favorites.</p></li>
+<li><p>Performed linear regression to analyze the relationship between tweet length and the number of favorites.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run some simple statistical models</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 1: Linear regression of the number of favorites based on the number of retweets</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(favorite_count <span class="sc">~</span> retweet_count, <span class="at">data =</span> trump_tweets_clean)</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = favorite_count ~ retweet_count, data = trump_tweets_clean)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-119669    -136    -131    -128   31975 
+
+Coefficients:
+               Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   128.44252   68.56449   1.873   0.0611 .  
+retweet_count   3.38915    0.03283 103.220   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 3361 on 2440 degrees of freedom
+Multiple R-squared:  0.8137,    Adjusted R-squared:  0.8136 
+F-statistic: 1.065e+04 on 1 and 2440 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Finding: This model examines the relationship between the number of retweets and the number of favorites. The summary provides information on the strength and significance of this relationship.</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 2: Linear regression of the number of favorites based on the length of the tweet</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>trump_tweets_clean<span class="sc">$</span>text_length <span class="ot">&lt;-</span> <span class="fu">nchar</span>(trump_tweets_clean<span class="sc">$</span>text)</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(favorite_count <span class="sc">~</span> text_length, <span class="at">data =</span> trump_tweets_clean)</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = favorite_count ~ text_length, data = trump_tweets_clean)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+ -6007  -1475    -73    468 100932 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -1763.260    256.052  -6.886 7.26e-12 ***
+text_length    54.012      4.001  13.500  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 7511 on 2440 degrees of freedom
+Multiple R-squared:  0.0695,    Adjusted R-squared:  0.06912 
+F-statistic: 182.2 on 1 and 2440 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Finding: This model examines the relationship between the length of a tweet and the number of favorites. The summary provides insights into whether longer tweets tend to receive more favorites.</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Report the results from the models</span></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Model 1: Linear regression of the number of favorites based on the number of retweets</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model 1: Linear regression of the number of favorites based on the number of retweets</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(model1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = favorite_count ~ retweet_count, data = trump_tweets_clean)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-119669    -136    -131    -128   31975 
+
+Coefficients:
+               Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   128.44252   68.56449   1.873   0.0611 .  
+retweet_count   3.38915    0.03283 103.220   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 3361 on 2440 degrees of freedom
+Multiple R-squared:  0.8137,    Adjusted R-squared:  0.8136 
+F-statistic: 1.065e+04 on 1 and 2440 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Model 2: Linear regression of the number of favorites based on the length of the tweet</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model 2: Linear regression of the number of favorites based on the length of the tweet</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(model2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = favorite_count ~ text_length, data = trump_tweets_clean)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+ -6007  -1475    -73    468 100932 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -1763.260    256.052  -6.886 7.26e-12 ***
+text_length    54.012      4.001  13.500  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 7511 on 2440 degrees of freedom
+Multiple R-squared:  0.0695,    Adjusted R-squared:  0.06912 
+F-statistic: 182.2 on 1 and 2440 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</section>
+<section id="model-1-linear-regression-of-the-number-of-favorites-based-on-the-number-of-retweets" class="level3">
+<h3 class="anchored" data-anchor-id="model-1-linear-regression-of-the-number-of-favorites-based-on-the-number-of-retweets">Model 1: Linear regression of the number of favorites based on the number of retweets</h3>
+<p><strong>Summary</strong>: - <strong>Intercept</strong>: 128.44 (p = 0.0611) - <strong>Slope (retweet_count)</strong>: 3.39 (p &lt; 2e-16)</p>
+<p><strong>Findings</strong>: - Strong positive relationship between retweets and favorites. - High R-squared value (0.8137), indicating 81.37% of the variability in favorites is explained by retweets. - Significant model (p-value &lt; 2.2e-16).</p>
+</section>
+<section id="model-2-linear-regression-of-the-number-of-favorites-based-on-the-length-of-the-tweet" class="level3">
+<h3 class="anchored" data-anchor-id="model-2-linear-regression-of-the-number-of-favorites-based-on-the-length-of-the-tweet">Model 2: Linear regression of the number of favorites based on the length of the tweet</h3>
+<p><strong>Summary</strong>: - <strong>Intercept</strong>: -1763.26 (p &lt; 2e-16) - <strong>Slope (text_length)</strong>: 54.01 (p &lt; 2e-16)</p>
+<p><strong>Findings</strong>: - Positive relationship between tweet length and favorites. - Low R-squared value (0.0695), indicating 6.95% of the variability in favorites is explained by tweet length. - Significant model (p-value &lt; 2.2e-16).</p>
+</section>
+<section id="comments-on-findings" class="level3">
+<h3 class="anchored" data-anchor-id="comments-on-findings">Comments on Findings:</h3>
+<ul>
+<li><strong>Model 1</strong>: The number of retweets is a strong predictor of the number of favorites, with a high R-squared value and statistically significant coefficients. This suggests that tweets with higher retweets tend to receive more favorites.</li>
+<li><strong>Model 2</strong>: The length of the tweet has a weaker relationship with the number of favorites, as indicated by the lower R-squared value. While the model is statistically significant, it explains less of the variability in the number of favorites compared to retweets.</li>
+</ul>
+<p>These findings suggest that while both retweets and tweet length can influence the number of favorites, retweets are a much stronger predictor.</p>
+<p><strong>Reporting Findings</strong>:</p>
+<ul>
+<li>Analyzed and reported the results of the linear regression models, highlighting key statistics and the significance of the predictors.</li>
+</ul>
+<p>By following these steps, we were able to gain insights into the patterns and predictors of tweet engagement in the Trump_Tweets dataset.</p>
+</section>
+<section id="conclusion-1" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion-1">Conclusion</h3>
+<p>The analysis of the Trump Tweets dataset reveals several interesting insights:</p>
+<ol type="1">
+<li><p><strong>Tweet Frequency Over Time</strong>: The histogram plot shows a significant increase in the number of tweets around mid-2013, with a peak and subsequent decline by early 2014. This trend may correlate with specific events or increased activity during that period.</p></li>
+<li><p><strong>Tweet Sources</strong>: The majority of Trump’s tweets were sent from the “Twitter Web Client,” followed by “Twitter for Android.” This suggests a preference for these platforms.</p></li>
+<li><p><strong>Statistical Models</strong>:</p>
+<ul>
+<li><strong>Model 1</strong>: There is a strong positive relationship between the number of retweets and the number of favorites, with a high R-squared value of 0.8137. This indicates that retweets are a strong predictor of favorites.</li>
+<li><strong>Model 2</strong>: The length of the tweet also positively correlates with the number of favorites but to a much lesser extent, with an R-squared value of 0.0695. While statistically significant, tweet length explains much less variability in favorites compared to retweets.</li>
+</ul></li>
+</ol>
+<p>In summary, the number of retweets is a strong indicator of the popularity of Trump’s tweets, significantly more so than the length of the tweet. This analysis provides insights into the factors influencing the engagement levels of tweets from this dataset.</p>
+
+
 </section>
 </section>
 
