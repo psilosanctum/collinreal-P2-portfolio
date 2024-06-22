@@ -260,6 +260,7 @@ summary(fit1)
 fit2 = lm(african_mortality2000$life_expectancy ~ african_mortality2000$population)
 summary(fit2)
 ```
+
 #### Conclusion
-
-
+Our fit1 model's (i.e. fit life expectancy to infant mortality) independent variable has a p-value less than the significance level, so we reject the null hypothesis and conclude that infant mortality has a significant effect on life expectancy. For every infant death, life expectancy reduces by 0.18916
+Our fit2 model's (i.e. fit life expectancy to population) independent variable has a p-value greater than the significance level, so we do not reject the null hypothesis and conclude that population does not have a significant effect on life expectancy. 
