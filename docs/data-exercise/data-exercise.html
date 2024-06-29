@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Collin Real">
+
+<title>Collin Real - Data Analysis Portfolio - Comma AI - Video Processing Driving Data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script src="../site_libs/quarto-contrib/videojs/video.min.js"></script>
+<link href="../site_libs/quarto-contrib/videojs/video-js.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Collin Real - Data Analysis Portfolio</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../aboutme.html" rel="" target="">
+ <span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+        <li>
+    <a class="dropdown-item" href="../starter-analysis-exercise/products/report/starter-analysis-report.html" rel="" target="">
+ <span class="dropdown-text">Starter Analysis Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../coding-exercise/coding-exercise.html" rel="" target="">
+ <span class="dropdown-text">R Coding Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../presentation-exercise/presentation-exercise.html" rel="" target="">
+ <span class="dropdown-text">Presentation Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../tidytuesday-exercise/tidytuesday-exercise.html" rel="" target="">
+ <span class="dropdown-text">Tidy Tuesday Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../assignments/market_segmentation/pca_kmeans_market_segmentation.html" rel="" target="">
+ <span class="dropdown-text">Market Segmentation - PCA ^&amp; K-means Clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../data-exercise/data-exercise.html" rel="" target="">
+ <span class="dropdown-text">Video Processing in Python</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/psilosanctum/collinreal-P2-portfolio" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Comma AI - Video Processing Driving Data</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Collin Real </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Comma.ai is one of the few respectable tech companies offering one of the most advanced self-driving products: <strong>the comma 3x.</strong> - Automates ~70+% of daily driving. - Performs exceptionally well on highways and other roads with identifiable lanes. - Installed and mounted on a car’s front windshield, so it can receive a live data feed of the road. - Using this live feed, the comma 3x projects the path for the vehicle to follow.</p>
+<section id="comma-api" class="level3">
+<h3 class="anchored" data-anchor-id="comma-api">Comma API</h3>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Comma uploads driving data to its servers to train better models and improve the self-driving experience over time. We can access our driving data using the <a href="https://api.comma.ai/#comma-api-spec">comma API</a>. Using our driving data, we can create metrics to analyze our driving patterns and behavior.</p>
+</section>
+<section id="my-comma-3x-device" class="level3">
+<h3 class="anchored" data-anchor-id="my-comma-3x-device">My Comma 3x device</h3>
+<p>Visit the website for a more comprehensive overview: <a href="https://www.comma.ai/">comma.ai</a></p>
+</section>
+</section>
+<section id="set-up-virtual-environmentinstall-dependencies-mac" class="level2">
+<h2 class="anchored" data-anchor-id="set-up-virtual-environmentinstall-dependencies-mac">Set Up Virtual Environment/Install Dependencies (Mac)</h2>
+<section id="execute-these-commands-in-your-terminal" class="level3">
+<h3 class="anchored" data-anchor-id="execute-these-commands-in-your-terminal">Execute these commands in your terminal</h3>
+<ul>
+<li><strong>Create local virtual env:</strong> <code>python3 -m venv .venv</code></li>
+<li><strong>Activate local virtual env:</strong> <code>source .venv/bin/activate</code></li>
+<li><strong>Install Python dependencies:</strong> <code>pip3 install -r requirements.txt</code></li>
+<li><strong>Install Homebrew:</strong> <code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></li>
+<li><strong>Install ‘ffmpeg’ via Homebrew:</strong> <code>brew install ffmpeg</code></li>
+<li><strong>OPTIONAL - Connect your personal Comma AI device:</strong>
+<ul>
+<li><code>touch .env</code></li>
+<li><code>nano .env</code> - opens .env file in terminal</li>
+<li><code>COMMA_AI_KEY="insert your Comma API key"</code></li>
+<li><code>DONGLE_ID="insert your dongle ID"</code></li>
+<li>Save file and exit nano</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="import-libraries-set-configurations" class="level2">
+<h2 class="anchored" data-anchor-id="import-libraries-set-configurations">Import Libraries &amp; Set Configurations</h2>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd <span class="co"># data processing</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib.request <span class="co"># download file from URL</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ssl <span class="co"># bypass SSL certificate</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings <span class="co"># ignore non-critical warning outputs</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv2 <span class="co"># video processing</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt <span class="co"># data visualization</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.image <span class="im">as</span> mpimg <span class="co"># data visualization</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> subprocess <span class="co"># running terminal commands in Python script</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn_image <span class="im">as</span> isns <span class="co"># data visualization</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> requests <span class="im">import</span> get <span class="co"># API request</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> time <span class="im">import</span> sleep <span class="co"># Prevent triggering the API limit</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> os <span class="im">import</span> environ, listdir, mkdir, makedirs <span class="co"># directory manipulation &amp; file saving</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os.path</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv <span class="co"># load environment variables</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm <span class="co"># added as a meme, prints unnecessary loading bar in terminal during for loops</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> moviepy.editor <span class="im">import</span> VideoFileClip, concatenate_videoclips <span class="co"># video editing</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'ggplot'</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>ssl._create_default_https_context <span class="op">=</span> ssl._create_unverified_context</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">'display.max_columns'</span>, <span class="va">None</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>True</code></pre>
+</div>
+</div>
+</section>
+<section id="create-variables-for-api-requests" class="level2">
+<h2 class="anchored" data-anchor-id="create-variables-for-api-requests">Create Variables for API Requests</h2>
+<p>The first step to receive the recording of my longest trip (College Station) since installation is making sure I send the correct parameters to the API endpoint. Comma.ai’s API requests require an authentication token and the dongle ID of a user’s Comma device.</p>
+<div class="cell" data-results="hide" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>TOKEN<span class="op">=</span> environ.get(<span class="st">'COMMA_AI_KEY'</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>DONGLE_ID <span class="op">=</span> environ.get(<span class="st">'DONGLE_ID'</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Authorization'</span>: <span class="st">'JWT </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(TOKEN)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>BASE_URL <span class="op">=</span> <span class="st">'https://api.commadotai.com'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="createcheck-file-paths-exist" class="level2">
+<h2 class="anchored" data-anchor-id="createcheck-file-paths-exist">Create/Check File Paths Exist</h2>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>route_data_path <span class="op">=</span> <span class="st">'data/route-data'</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>vid_urls_path <span class="op">=</span> <span class="st">'data/vid-urls'</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>vid_save_files_path <span class="op">=</span> <span class="st">'data/vid-files'</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>mp4_directory <span class="op">=</span> <span class="st">'data/vid-mp4'</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>full_vid_path <span class="op">=</span> <span class="st">'data/vid-full'</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>images_path <span class="op">=</span> <span class="st">'data/route-images'</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>paths <span class="op">=</span> [</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    route_data_path,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    vid_urls_path,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    vid_save_files_path,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    mp4_directory,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    full_vid_path,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    images_path,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> route_vid_path <span class="kw">in</span> paths:</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> os.path.exists(route_vid_path) <span class="op">==</span> <span class="va">False</span>: mkdir(route_vid_path)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>: <span class="cf">pass</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="api-request-1---returns-user-driving-data" class="level2">
+<h2 class="anchored" data-anchor-id="api-request-1---returns-user-driving-data">API Request #1 - Returns User Driving Data</h2>
+<p>After creating the API variables, we can request the API endpoint which returns our driving data in the response output. The first API request will return various metrics from all of my driving trips since installing my Comma 3x. It will provide us with the route name for every trip. For our current task, we have chosen our longest trip by miles, so we will sort the dataset by longest trip to identify the route name. After sorting by descending order, the first row’s value in column <strong>fullname</strong> is the route name.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> query_route_data(BASE_URL: <span class="bu">str</span>):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Send API request</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    resp <span class="op">=</span> get(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f'</span><span class="sc">{</span>BASE_URL<span class="sc">}</span><span class="ss">/v1/devices/</span><span class="sc">{</span>DONGLE_ID<span class="sc">}</span><span class="ss">/routes_segments?start=1706050612200&amp;end=1811678741855'</span>, headers<span class="op">=</span>headers, </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        verify<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert API response to JSON</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    content <span class="op">=</span> resp.json()</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create DataFrame w/ API Response</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(content)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Remove latitude, longitude variables for privacy.</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df[[</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">'fullname'</span>, <span class="st">'length'</span>, <span class="st">'create_time'</span>, <span class="st">'end_time_utc_millis'</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'end_time'</span>, <span class="st">'init_logmonotime'</span>, <span class="st">'maxqcamera'</span>, <span class="st">'maxqlog'</span>, </span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">'platform'</span>, <span class="st">'procqcamera'</span>, <span class="st">'procqlog'</span>, <span class="st">'segment_end_times'</span>, </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">'segment_numbers'</span>, <span class="st">'segment_start_times'</span>, <span class="st">'start_time_utc_millis'</span>, <span class="st">'version'</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    ]]</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Time metric conversions</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'time_diff_millis'</span>] <span class="op">=</span> df[<span class="st">'end_time_utc_millis'</span>] <span class="op">-</span> df[<span class="st">'start_time_utc_millis'</span>]</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'time_diff_seconds'</span>] <span class="op">=</span> df[<span class="st">'time_diff_millis'</span>].<span class="fu">__truediv__</span>(<span class="dv">1000</span>)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'time_diff_minutes'</span>] <span class="op">=</span> df[<span class="st">'time_diff_seconds'</span>].<span class="fu">__truediv__</span>(<span class="dv">60</span>)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'time_diff_hours'</span>] <span class="op">=</span> df[<span class="st">'time_diff_minutes'</span>].<span class="fu">__truediv__</span>(<span class="dv">60</span>)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'end_time'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'end_time'</span>]).dt.strftime(<span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">"</span>)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># strip_dongle_id</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    removed_dongle_route_list <span class="op">=</span> []</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx, row <span class="kw">in</span> df.iterrows():</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        stripped_value <span class="op">=</span> row[<span class="st">'fullname'</span>].replace(<span class="ss">f'</span><span class="sc">{</span>DONGLE_ID<span class="sc">}</span><span class="ss">'</span>, <span class="st">'INSERT-DONGLE-ID-HERE'</span>)</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        removed_dongle_route_list.append(stripped_value)</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'fullname'</span>] <span class="op">=</span> removed_dongle_route_list</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># df = df.sort_values('end_time_utc_millis', ascending=False)</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.sort_values(<span class="st">'length'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    route_names <span class="op">=</span> df[<span class="st">'fullname'</span>].tolist()</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    route_df <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    route_df[<span class="st">'route_name'</span>] <span class="op">=</span> route_names</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Save route data to csv</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    route_df.to_csv(<span class="ss">f'</span><span class="sc">{</span>route_data_path<span class="sc">}</span><span class="ss">/route_names.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    df.to_csv(<span class="ss">f'</span><span class="sc">{</span>route_data_path<span class="sc">}</span><span class="ss">/trip_driving_data.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(df.head(<span class="dv">5</span>))</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>query_route_data(BASE_URL<span class="op">=</span>BASE_URL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                       fullname   length  create_time  \
+262  INSERT-DONGLE-ID-HERE|2024-04-07--06-08-29  156.534   1712870311   
+182  INSERT-DONGLE-ID-HERE|2024-05-07--16-10-54  139.620   1715288166   
+26   INSERT-DONGLE-ID-HERE|00000010--81d5c2726b  138.466   1718914246   
+342  INSERT-DONGLE-ID-HERE|2024-03-07--19-35-36  137.845   1709869924   
+397  INSERT-DONGLE-ID-HERE|2024-02-22--19-21-56  137.806   1708659973   
+
+     end_time_utc_millis    end_time  init_logmonotime  maxqcamera  maxqlog  \
+262        1712514891000  2024-04-07   599843939121748         146      146   
+182        1715129896000  2024-05-08   111658668871310         227      227   
+26         1718914178000  2024-06-20       39606234306         165      165   
+342        1709869718000  2024-03-08   212451552872081         132      132   
+397        1708659678000  2024-02-23   630945949563076         139      139   
+
+              platform  procqcamera  procqlog  \
+262  TOYOTA CAMRY 2021          146       146   
+182  TOYOTA CAMRY 2021          227       227   
+26   TOYOTA_CAMRY_TSS2          165       165   
+342  TOYOTA CAMRY 2021          132       132   
+397  TOYOTA CAMRY 2021          139       139   
+
+                                     segment_end_times  \
+262  [1712506162000, 1712506222000, 1712506282000, ...   
+182  [1715116312000, 1715116372000, 1715116432000, ...   
+26   [1718904334000, 1718904394000, 1718904454000, ...   
+342  [1709861796000, 1709861856000, 1709861916000, ...   
+397  [1708651376000, 1708651436000, 1708651496000, ...   
+
+                                       segment_numbers  \
+262  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,...   
+182  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,...   
+26   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,...   
+342  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,...   
+397  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,...   
+
+                                   segment_start_times  start_time_utc_millis  \
+262  [1712506102000, 1712506162000, 1712506222000, ...          1712506102000   
+182  [1715116252000, 1715116312000, 1715116372000, ...          1715116252000   
+26   [1718904274000, 1718904334000, 1718904394000, ...          1718904274000   
+342  [1709861736000, 1709861796000, 1709861856000, ...          1709861736000   
+397  [1708651316000, 1708651376000, 1708651436000, ...          1708651316000   
+
+           version  time_diff_millis  time_diff_seconds  time_diff_minutes  \
+262  0.9.6-release           8789000             8789.0         146.483333   
+182  0.9.6-release          13644000            13644.0         227.400000   
+26   0.9.7-release           9904000             9904.0         165.066667   
+342  0.9.6-release           7982000             7982.0         133.033333   
+397  0.9.5-release           8362000             8362.0         139.366667   
+
+     time_diff_hours  
+262         2.441389  
+182         3.790000  
+26          2.751111  
+342         2.217222  
+397         2.322778  </code></pre>
+</div>
+</div>
+</section>
+<section id="api-request-2---returns-urls-to-download-video-files" class="level2">
+<h2 class="anchored" data-anchor-id="api-request-2---returns-urls-to-download-video-files">API Request #2 - Returns URLs To Download Video Files</h2>
+<p>Using the route name, we can submit our second API request to an endpoint storing the URLs of our downloadable video files (.ts file type). Before downloading our files, we store the URLs from the API response in a text file, so we can access the URL data locally.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> query_to_extract_urls(BASE_URL: <span class="bu">str</span>, route_name: <span class="bu">str</span>):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.read_csv(<span class="ss">f'</span><span class="sc">{</span>route_data_path<span class="sc">}</span><span class="ss">/route_names.csv'</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Insert dongle ID into route name</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    route_name_dongle_list <span class="op">=</span> []</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx, row <span class="kw">in</span> df.iterrows():</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        converted_route_name <span class="op">=</span> row[<span class="st">'route_name'</span>].replace(</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">'INSERT-DONGLE-ID-HERE'</span>, <span class="ss">f'</span><span class="sc">{</span>DONGLE_ID<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        route_name_dongle_list.append(converted_route_name)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'route_name'</span>] <span class="op">=</span> route_name_dongle_list</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    download_recent_trip_vids <span class="op">=</span> df.loc[df[<span class="st">'route_name'</span>] <span class="op">==</span> route_name]</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    download_recent_trip_vids <span class="op">=</span> download_recent_trip_vids[<span class="st">'route_name'</span>].tolist()</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> route <span class="kw">in</span> tqdm(download_recent_trip_vids):</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> get(</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f'</span><span class="sc">{</span>BASE_URL<span class="sc">}</span><span class="ss">/v1/route/</span><span class="sc">{</span>route<span class="sc">}</span><span class="ss">/files'</span>, </span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>            headers<span class="op">=</span>headers, verify<span class="op">=</span><span class="va">False</span>, </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>            stream<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>            timeout<span class="op">=</span><span class="dv">10</span>) <span class="im">as</span> response:</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>            content <span class="op">=</span> response.json()[<span class="st">'qcameras'</span>]</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">with</span> <span class="bu">open</span>(</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>                <span class="ss">f'</span><span class="sc">{</span>vid_urls_path<span class="sc">}</span><span class="ss">'</span> <span class="op">+</span> <span class="ss">f'/</span><span class="sc">{</span>route<span class="sc">.</span>replace(<span class="ss">f"</span><span class="sc">{</span>DONGLE_ID<span class="sc">}</span><span class="ss">|"</span>, <span class="st">""</span>)<span class="sc">}</span><span class="ss">.txt'</span>,</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>                mode<span class="op">=</span><span class="st">"wb"</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> url <span class="kw">in</span> content:</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">file</span>.write(</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>                        url.replace(</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>                            <span class="ss">f"</span><span class="sc">{</span>DONGLE_ID<span class="sc">}</span><span class="ss">"</span>, </span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"INSERT-DONGLE-ID-HERE"</span>).encode(<span class="st">'utf-8'</span>) <span class="op">+</span> <span class="st">' </span><span class="ch">\n</span><span class="st">'</span>.encode(<span class="st">'utf-8'</span>))</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    urls_list <span class="op">=</span> []</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f'</span><span class="sc">{</span>vid_urls_path<span class="sc">}</span><span class="ss">'</span> <span class="op">+</span> <span class="ss">f'/</span><span class="sc">{</span>route<span class="sc">.</span>replace(<span class="ss">f"</span><span class="sc">{</span>DONGLE_ID<span class="sc">}</span><span class="ss">|"</span>, <span class="st">""</span>)<span class="sc">}</span><span class="ss">.txt'</span>,</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        mode<span class="op">=</span><span class="st">"r"</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>        url_list <span class="op">=</span> <span class="bu">file</span>.readlines()</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> url <span class="kw">in</span> url_list:</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>            urls_list.append(url)</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Total number of URLs to download:"</span>, <span class="bu">len</span>(urls_list))</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st"> Preview 5 URLs:"</span>, <span class="op">*</span>url_list[:<span class="dv">5</span>], sep<span class="op">=</span><span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>query_to_extract_urls(BASE_URL<span class="op">=</span>BASE_URL, route_name<span class="op">=</span><span class="ss">f'</span><span class="sc">{</span>DONGLE_ID<span class="sc">}</span><span class="ss">|2024-04-07--06-08-29'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Total number of URLs to download: 147
+
+ Preview 5 URLs:
+https://commadata2.blob.core.windows.net/qlog/INSERT-DONGLE-ID-HERE/2024-04-07--06-08-29/0/qcamera.ts?se=2024-06-29T05%3A31%3A56Z&amp;sp=r&amp;sv=2024-05-04&amp;sr=b&amp;rscd=attachment%3B%20filename%3DINSERT-DONGLE-ID-HERE_2024-04-07--06-08-29--0--qcamera.ts&amp;sig=q6JX4aNZIKcTE3dKekSFGQxsxdZ7/iPUVj1xqTty7o4%3D 
+
+https://commadata2.blob.core.windows.net/qlog/INSERT-DONGLE-ID-HERE/2024-04-07--06-08-29/1/qcamera.ts?se=2024-06-29T05%3A31%3A56Z&amp;sp=r&amp;sv=2024-05-04&amp;sr=b&amp;rscd=attachment%3B%20filename%3DINSERT-DONGLE-ID-HERE_2024-04-07--06-08-29--1--qcamera.ts&amp;sig=QSOHrRpNkd9QRz0tgxn//UWGV5JBO5YIpYsE75VXzb4%3D 
+
+https://commadata2.blob.core.windows.net/qlog/INSERT-DONGLE-ID-HERE/2024-04-07--06-08-29/2/qcamera.ts?se=2024-06-29T05%3A31%3A56Z&amp;sp=r&amp;sv=2024-05-04&amp;sr=b&amp;rscd=attachment%3B%20filename%3DINSERT-DONGLE-ID-HERE_2024-04-07--06-08-29--2--qcamera.ts&amp;sig=d6EQhljWv6fvEW8eN6Kc2D8joc5anSvDyofDHF%2BtR74%3D 
+
+https://commadata2.blob.core.windows.net/qlog/INSERT-DONGLE-ID-HERE/2024-04-07--06-08-29/3/qcamera.ts?se=2024-06-29T05%3A31%3A56Z&amp;sp=r&amp;sv=2024-05-04&amp;sr=b&amp;rscd=attachment%3B%20filename%3DINSERT-DONGLE-ID-HERE_2024-04-07--06-08-29--3--qcamera.ts&amp;sig=WXx22sFTQGziQv2ZfFF6A4PALL2MoDqKmgZNMPpvK1c%3D 
+
+https://commadata2.blob.core.windows.net/qlog/INSERT-DONGLE-ID-HERE/2024-04-07--06-08-29/4/qcamera.ts?se=2024-06-29T05%3A31%3A56Z&amp;sp=r&amp;sv=2024-05-04&amp;sr=b&amp;rscd=attachment%3B%20filename%3DINSERT-DONGLE-ID-HERE_2024-04-07--06-08-29--4--qcamera.ts&amp;sig=At6cC5eEOaKbrPQLWoYzahVGpmf9Zs79vRsGkkWZLFY%3D 
+</code></pre>
+</div>
+</div>
+</section>
+<section id="downloading-our-driving-video-.ts-files" class="level2">
+<h2 class="anchored" data-anchor-id="downloading-our-driving-video-.ts-files">Downloading Our Driving Video .ts Files</h2>
+<p>With our URLs stored locally in a text file, we can iterate over and request each URL to download and save our video files locally. <br> <strong>Note:</strong> You cannot run this function since I did not provide my API token or dongle id</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> download_vid_files_from_url():</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> filename <span class="kw">in</span> tqdm(listdir(vid_urls_path)):</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Video URLs file:"</span>, vid_urls_path <span class="op">+</span>  <span class="ss">f'/</span><span class="sc">{</span>filename<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        f <span class="op">=</span> os.path.join(vid_urls_path, filename)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">file</span> <span class="op">=</span> <span class="bu">open</span>(f, <span class="st">'rb'</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Beginning video downloads..."</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> url <span class="kw">in</span> tqdm(<span class="bu">file</span>):</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>            decode_url <span class="op">=</span> url.decode(<span class="st">'utf-8'</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>            url_insert_dongle_id <span class="op">=</span> decode_url.replace(</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>                <span class="st">"INSERT-DONGLE-ID-HERE"</span>, <span class="ss">f"</span><span class="sc">{</span>DONGLE_ID<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>            create_route_vid_path <span class="op">=</span> filename.replace(<span class="st">'.txt'</span>, <span class="st">''</span>).replace(<span class="ss">f'</span><span class="sc">{</span>DONGLE_ID<span class="sc">}</span><span class="ss">|'</span>, <span class="st">''</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>            urllib.request.urlretrieve(</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>                url_insert_dongle_id, </span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>                vid_save_files_path <span class="op">+</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>                <span class="ss">f'/</span><span class="sc">{</span>create_route_vid_path<span class="sc">}</span><span class="ss">'</span> <span class="op">+</span> </span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>                <span class="ss">f'/x</span><span class="sc">{</span><span class="bu">str</span>(count)<span class="sc">.</span>rjust(<span class="dv">3</span>, <span class="st">"0"</span>)<span class="sc">}</span><span class="ss">_'</span> <span class="op">+</span> </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>                <span class="ss">f'</span><span class="sc">{</span>filename<span class="sc">.</span>replace(<span class="st">".txt"</span>, <span class="st">""</span>)<span class="sc">.</span>replace(<span class="ss">f"</span><span class="sc">{</span>DONGLE_ID<span class="sc">}</span><span class="ss">|"</span>, <span class="st">""</span>)<span class="sc">}</span><span class="ss">.ts'</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>            count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        sleep(<span class="dv">17</span>)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Video files successfully downloaded!"</span>)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Total files downloaded:"</span>, count)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>download_vid_files_from_url()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Video URLs file: data/vid-urls/2024-04-07--06-08-29.txt
+Beginning video downloads...
+Video files successfully downloaded!
+Total files downloaded: 147</code></pre>
+</div>
+</div>
+</section>
+<section id="converting-file-type-to-mp4" class="level2">
+<h2 class="anchored" data-anchor-id="converting-file-type-to-mp4">Converting File Type to MP4</h2>
+<p>After looping over the URLs to download our driving videos, we convert our video file type from .ts to .mp4 since it’s one of the most common file types for videos. We store the converted videos in a separate directory, so that we can loop over the 147 files without the original files making trouble.</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_ts_to_mp4(vid_clip_directory: <span class="bu">str</span>):</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    route_directory <span class="op">=</span> vid_save_files_path <span class="op">+</span> vid_clip_directory</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> path.exists(mp4_directory <span class="op">+</span> vid_clip_directory) <span class="op">==</span> <span class="va">False</span>: </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        mkdir(mp4_directory <span class="op">+</span> vid_clip_directory)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>: <span class="cf">pass</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    files_list <span class="op">=</span> []</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> listdir(route_directory): files_list.append(<span class="bu">file</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    files_list.sort()</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> filename <span class="kw">in</span> files_list:</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        infile <span class="op">=</span> route_directory <span class="op">+</span> <span class="ss">f'/</span><span class="sc">{</span>filename<span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>        outfile <span class="op">=</span> mp4_directory <span class="op">+</span> <span class="ss">f'/</span><span class="sc">{</span>vid_clip_directory<span class="sc">}</span><span class="ss">'</span> <span class="op">+</span> <span class="ss">f'/</span><span class="sc">{</span>filename<span class="sc">.</span>replace(<span class="st">".ts"</span>, <span class="st">""</span>)<span class="sc">}</span><span class="ss">.mp4'</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>        subprocess.run([</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>            <span class="st">'ffmpeg'</span>,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>            <span class="st">'-i'</span>,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>            infile,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>            outfile,</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>        ])</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co"># convert_ts_to_mp4(vid_clip_directory='/2024-04-07--06-08-29')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="concatenate-the-video-clips" class="level2">
+<h2 class="anchored" data-anchor-id="concatenate-the-video-clips">Concatenate The Video Clips</h2>
+<p>To facilitate the distribution of video data, Comma API splits our video data into short clips to reduce the memory size. Our objective is to capture images from our entire trip; therefore, we need to concatenate the 147 video files. Ideally, we’d prefer to create one MP4 from the concatenation. Due to storage size, we split the final trip into 4 parts. If we don’t split the video data in this manner, the file size would be too large and we wouldn’t be able to push the video to GitHub.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> concat_vid_clips(vid_clip_directory: <span class="bu">str</span>):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    vid_clips_list <span class="op">=</span> []</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    route_mp4_path <span class="op">=</span> mp4_directory <span class="op">+</span> vid_clip_directory</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    files_list <span class="op">=</span> []</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> listdir(route_mp4_path): files_list.append(<span class="bu">file</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    files_list.sort()</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> multi_part_full_vid(video_title: <span class="bu">str</span>, start_range: <span class="bu">int</span>, end_range: <span class="bu">int</span>):</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> filename <span class="kw">in</span> files_list[start_range:end_range]:</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>            f <span class="op">=</span> os.path.join(route_mp4_path, filename)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>            vid_clip <span class="op">=</span> VideoFileClip(f)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>            vid_clips_list.append(vid_clip)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>        final_clip <span class="op">=</span> concatenate_videoclips(clips<span class="op">=</span>vid_clips_list, method<span class="op">=</span><span class="st">'chain'</span>)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>        final_clip.write_videofile(<span class="ss">f'</span><span class="sc">{</span>full_vid_path<span class="sc">}</span><span class="ss">'</span> <span class="op">+</span> <span class="ss">f'/</span><span class="sc">{</span>video_title<span class="sc">}</span><span class="ss">.mp4'</span>)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>        vid_clips_list.clear()</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    multi_part_full_vid(video_title<span class="op">=</span><span class="st">"trip_part_1"</span>, start_range<span class="op">=</span><span class="dv">0</span>, end_range<span class="op">=</span><span class="dv">40</span>)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    multi_part_full_vid(video_title<span class="op">=</span><span class="st">"trip_part_2"</span>, start_range<span class="op">=</span><span class="dv">41</span>, end_range<span class="op">=</span><span class="dv">80</span>)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    multi_part_full_vid(video_title<span class="op">=</span><span class="st">"trip_part_3"</span>, start_range<span class="op">=</span><span class="dv">81</span>, end_range<span class="op">=</span><span class="dv">120</span>)</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    multi_part_full_vid(video_title<span class="op">=</span><span class="st">"trip_part_4"</span>, start_range<span class="op">=</span><span class="dv">121</span>, end_range<span class="op">=</span><span class="dv">147</span>)</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="co"># concat_vid_clips(vid_clip_directory='/2024-04-07--06-08-29')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="save-images-from-the-video" class="level2">
+<h2 class="anchored" data-anchor-id="save-images-from-the-video">Save Images From The Video</h2>
+<p>Finally, we play the videos and save an Image every 2500 frames.</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> save_frame_range(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    video_path: <span class="bu">str</span>, </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    start_frame: <span class="bu">int</span>, </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    stop_frame: <span class="bu">int</span>, </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    step_frame: <span class="bu">int</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    dir_path: <span class="bu">str</span>, </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    basename: <span class="bu">str</span>, </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    ext<span class="op">=</span><span class="st">'png'</span>):</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    cap <span class="op">=</span> cv2.VideoCapture(video_path)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> cap.isOpened(): <span class="cf">return</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    makedirs(dir_path, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    base_path <span class="op">=</span> os.path.join(dir_path, basename)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    digit <span class="op">=</span> <span class="bu">len</span>(<span class="bu">str</span>(<span class="bu">int</span>(cap.get(cv2.CAP_PROP_FRAME_COUNT))))</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(start_frame, stop_frame, step_frame):</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        cap.<span class="bu">set</span>(cv2.CAP_PROP_POS_FRAMES, n)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>        ret, frame <span class="op">=</span> cap.read()</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> ret: cv2.imwrite(<span class="ss">f'</span><span class="sc">{</span>base_path<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span><span class="bu">str</span>(n)<span class="sc">.</span>zfill(digit)<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>ext<span class="sc">}</span><span class="ss">'</span>, frame)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>: <span class="cf">return</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>save_frame_range(full_vid_path <span class="op">+</span> <span class="st">'/trip_part_1.mp4'</span>, <span class="dv">0</span>, <span class="dv">200000</span>, </span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>                 <span class="dv">2500</span>, images_path, <span class="st">'part1_video_img_frame'</span>)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>save_frame_range(full_vid_path <span class="op">+</span> <span class="st">'/trip_part_2.mp4'</span>, <span class="dv">0</span>, <span class="dv">200000</span>, </span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>                <span class="dv">2500</span>, images_path, <span class="st">'part2_video_img_frame'</span>)</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>save_frame_range(full_vid_path <span class="op">+</span> <span class="st">'/trip_part_3.mp4'</span>, <span class="dv">0</span>, <span class="dv">200000</span>, </span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>                 <span class="dv">2500</span>, images_path, <span class="st">'part3_video_img_frame'</span>)</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>save_frame_range(full_vid_path <span class="op">+</span> <span class="st">'/trip_part_4.mp4'</span>, <span class="dv">0</span>, <span class="dv">200000</span>, </span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>                 <span class="dv">2500</span>, images_path, <span class="st">'part4_video_img_frame'</span>)</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="co"># image_dir = listdir(images_path)</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a><span class="co"># for image in image_dir: print(image)         </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="college-station-trip-part-14" class="level2">
+<h2 class="anchored" data-anchor-id="college-station-trip-part-14">College Station Trip: Part 1/4</h2>
+<div class="quarto-video"><video id="video_shortcode_videojs_video1" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="data/vid-full/trip_part_1.mp4"></video></div>
+</section>
+<section id="notable-images-from-part-14" class="level2">
+<h2 class="anchored" data-anchor-id="notable-images-from-part-14">Notable Images From Part 1/4</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="data/route-images/part1_video_img_frame_002500.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">College Station</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="data/route-images/part4_video_img_frame_25000.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Water Tower</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="data/route-images/part3_video_img_frame_10000.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Country Road</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="data/route-images/part1_video_img_frame_010000.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Traffic Light</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="plotting-images" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-images">Plotting Images</h2>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cstat <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>images_path<span class="sc">}</span><span class="ss">'</span> <span class="op">+</span> <span class="st">'/part1_video_img_frame_002500.png'</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>water_tower <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>images_path<span class="sc">}</span><span class="ss">'</span> <span class="op">+</span> <span class="st">'/part4_video_img_frame_25000.png'</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>country_road <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>images_path<span class="sc">}</span><span class="ss">'</span> <span class="op">+</span> <span class="st">'/part3_video_img_frame_10000.png'</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>traffic_light <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>images_path<span class="sc">}</span><span class="ss">'</span> <span class="op">+</span> <span class="st">'/part1_video_img_frame_010000.png'</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>cstat_image <span class="op">=</span> plt.imread(cstat, <span class="bu">format</span><span class="op">=</span><span class="st">'png'</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>water_tower_image <span class="op">=</span> plt.imread(water_tower, <span class="bu">format</span><span class="op">=</span><span class="st">'png'</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>country_road_image <span class="op">=</span> plt.imread(country_road, <span class="bu">format</span><span class="op">=</span><span class="st">'png'</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>traffic_light_image <span class="op">=</span> plt.imread(traffic_light, <span class="bu">format</span><span class="op">=</span><span class="st">'png'</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>ax0 <span class="op">=</span> isns.imgplot(cstat_image, cmap<span class="op">=</span><span class="st">'seismic'</span>, gray<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> isns.imgplot(water_tower_image, cmap<span class="op">=</span><span class="st">'seismic'</span>, gray<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> isns.imgplot(country_road_image, cmap<span class="op">=</span><span class="st">'seismic'</span>, gray<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>ax3 <span class="op">=</span> isns.imgplot(traffic_light_image, cmap<span class="op">=</span><span class="st">'seismic'</span>, gray<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="data-exercise_files/figure-html/cell-11-output-1.png" width="540" height="346"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="data-exercise_files/figure-html/cell-11-output-2.png" width="540" height="346"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="data-exercise_files/figure-html/cell-11-output-3.png" width="540" height="346"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="data-exercise_files/figure-html/cell-11-output-4.png" width="540" height="346"></p>
+</div>
+</div>
+</section>
+<section id="plotting-images---histograms" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-images---histograms">Plotting Images - Histograms</h2>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>plt.hist(cstat_image.ravel())</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>plt.hist(water_tower_image.ravel())</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>plt.hist(country_road_image.ravel())</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">4</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>plt.hist(traffic_light_image.ravel())</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="data-exercise_files/figure-html/cell-12-output-1.png" width="604" height="411"></p>
+</div>
+</div>
+</section>
+<section id="plotting-images---boxplots" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-images---boxplots">Plotting Images - Boxplots</h2>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>plt.boxplot(cstat_image.ravel())</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>plt.boxplot(water_tower_image.ravel())</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>plt.boxplot(country_road_image.ravel())</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">4</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>plt.boxplot(traffic_light_image.ravel())</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="data-exercise_files/figure-html/cell-13-output-1.png" width="571" height="411"></p>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<script>videojs(video_shortcode_videojs_video1);</script>
+
+
+
+</body></html>
