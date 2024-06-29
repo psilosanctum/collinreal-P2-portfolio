@@ -315,8 +315,8 @@ save_frame_range(full_vid_path + '/trip_part_3.mp4', 0, 200000,
 save_frame_range(full_vid_path + '/trip_part_4.mp4', 0, 200000, 
                  2500, images_path, 'part4_video_img_frame')
 
-image_dir = listdir(images_path)
-for image in image_dir: print(image)         
+# image_dir = listdir(images_path)
+# for image in image_dir: print(image)         
 ```
 
 ## College Station Trip: Part 1/4

@@ -8,3 +8,7 @@
 .DS_Store
 
 /.quarto/
+
+data-exercise/.env
+data-exercise/.venv
+data-exercise/data/vid-mp4

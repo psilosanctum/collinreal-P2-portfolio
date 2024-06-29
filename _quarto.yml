@@ -1,6 +1,7 @@
 project: 
   type: website
   output-dir: docs
+  resources: data-exercise/data/vid-full/trip_part_1.mp4
 
 website:
   title: "Collin Real - Data Analysis Portfolio"
