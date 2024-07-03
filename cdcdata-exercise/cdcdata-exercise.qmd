@@ -20,6 +20,8 @@ pd.set_option('display.max_columns', None)
 ```{python}
 df = pd.read_csv('provisional_death_counts_influenza_pneumonia_covid.csv') # Load Dataframe
 df = df[['Start Week', 'End Week', 'MMWRyear', 'MMWRweek', 'Jurisdiction', 'Age Group', 'COVID-19 Deaths', 'Pneumonia Deaths', 'Influenza Deaths']]
+df = df.loc[df['Jurisdiction'] == 'United States']
+# df
 df.to_csv('full_clean_data.csv', index=False)
 ``` 
 -->
