@@ -1,0 +1,65 @@
+---
+title: "Provisional Death Counts - Influenza, Pneumonia, COVID"
+author: 'Collin Real'
+execute: 
+    warning: false
+    error: false
+format: html
+theme: cyborg
+---
+## Description
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Our dataset includes weekly provisional death counts for influenze, pneumonia, and COVID from 2020-2023 for all age groups exported from the CDC website. [Click here to view the CDC data source.](https://data.cdc.gov/NCHS/Provisional-Death-Counts-for-Influenza-Pneumonia-a/ynw2-4viq/about_data)
+
+<!-- ## Import Libraries & Set Configurations (Python)
+```{python}
+import pandas as pd
+pd.set_option('display.max_columns', None)
+```
+
+## Load and Filter DataFrame Columns, Export to CSV 
+```{python}
+df = pd.read_csv('provisional_death_counts_influenza_pneumonia_covid.csv') # Load Dataframe
+df = df[['Start Week', 'End Week', 'MMWRyear', 'MMWRweek', 'Jurisdiction', 'Age Group', 'COVID-19 Deaths', 'Pneumonia Deaths', 'Influenza Deaths']]
+df.to_csv('full_clean_data.csv', index=False)
+``` 
+-->
+
+## Import Libraries
+```{r}
+library(dplyr)
+library(here)
+library(tidyverse)
+library(ggplot2)
+```
+
+## Load DataFrame
+```{r}
+data_location <- here::here("cdcdata-exercise","full_clean_data.csv")
+df = read.csv(data_location)
+str(df)
+summary(df)
+```
+
+## Histogram Plots
+```{r}
+df %>%
+    select(Pneumonia.Deaths, Influenza.Deaths, COVID.19.Deaths) %>%
+    gather() %>%
+    ggplot(aes(value)) +
+    geom_histogram(color='black', fill='steelblue') +
+    facet_wrap(~key, scales = 'free') +
+    ggtitle(("Numerical Predictors - Histograms")) + 
+    theme_minimal()
+```
+
+## Box Plots
+```{r}
+df %>%
+    select(Pneumonia.Deaths, Influenza.Deaths, COVID.19.Deaths) %>%
+    gather() %>%
+    ggplot(aes(value)) +
+    geom_boxplot(color='black', fill='steelblue') +
+    facet_wrap(~key, scales = 'free') +
+    ggtitle(("Numerical Predictors - Boxplots")) + 
+    theme_minimal()
+```
