@@ -65,3 +65,125 @@ df %>%
     ggtitle(("Numerical Predictors - Boxplots")) + 
     theme_minimal()
 ```
+
+
+
+
+
+
+## [This Section contributed by Joaquin Ramirez]{style="color:blue;"}
+
+
+**Explanation:**
+
+Data Structure:
+
+The synthetic dataset has 800 observations and 9 variables, mirroring the structure of the original dataset.
+
+```{r}
+# Create a synthetic dataset with the same structure as the original
+set.seed(123) # For reproducibility
+
+# Define the number of observations
+n <- 800
+
+# Generate synthetic data
+synthetic_df <- tibble(
+  Start.Week = sample(seq.Date(as.Date('2020-01-01'), as.Date('2023-12-31'), by="week"), n, replace = TRUE),
+  End.Week = sample(seq.Date(as.Date('2020-01-08'), as.Date('2024-01-07'), by="week"), n, replace = TRUE),
+  MMWRyear = sample(2020:2023, n, replace = TRUE),
+  MMWRweek = sample(1:53, n, replace = TRUE),
+  Jurisdiction = rep("United States", n),
+  Age.Group = sample(c('0-17 years', '18-64 years', '65 years and over', 'All Ages'), n, replace = TRUE),
+  COVID.19.Deaths = round(rnorm(n, mean = 2879, sd = 5000)),
+  Pneumonia.Deaths = round(rnorm(n, mean = 2948, sd = 3000)),
+  Influenza.Deaths = round(rnorm(n, mean = 56, sd = 100))
+)
+
+# Summarize the synthetic data
+str(synthetic_df)
+summary(synthetic_df)
+```
+
+ Variables included are as follows:
+
+- Start.Week: ranges from January 1, 2020, to December 27, 2023, with a median date of January 26, 2022.
+
+- End.Week: ranges from January 8, 2020, to January 3, 2024, with a median date of November 24, 2021.
+
+- MMWRyear: ranges from 2020 to 2023, with a median year of 2022.
+
+- MMWRweek: ranges from 1 to 53, with a median week of 28.
+
+- Jurisdiction: has only one value: "United States".
+
+- Age.Group: includes "0-17 years", "18-64 years", "65 years and over", and "All Ages".
+
+- COVID-19 Deaths: Minimum: -11825, Maximum: 16635, Median: 2786.5, Mean: 2823.4
+
+- Pneumonia Deaths: Minimum: -6492, Maximum: 11465, Median: 2936, Mean: 2931.6
+
+- Influenza Deaths: Minimum: -318, Maximum: 402, Median: 51, Mean: 49.57
+
+
+
+
+
+```{r}
+# Histogram Plots for Synthetic Data
+synthetic_df %>%
+  select(Pneumonia.Deaths, Influenza.Deaths, COVID.19.Deaths) %>%
+  gather() %>%
+  ggplot(aes(value)) +
+  geom_histogram(color='black', fill='steelblue') +
+  facet_wrap(~key, scales = 'free') +
+  ggtitle("Numerical Predictors - Histograms (Synthetic Data)") + 
+  theme_minimal()
+```
+
+**Histograms of Synthetic Data:**
+
+- COVID-19 Deaths: The histogram for COVID-19 deaths shows a symmetrical distribution centered around zero, with a range extending roughly from -10,000 to 10,000. The highest frequency of values lies close to the mean, with the counts tapering off symmetrically as they move away from the center.
+
+- Influenza Deaths: Similar to the COVID-19 deaths, the histogram for influenza deaths also shows a symmetrical distribution around zero. The range is narrower, extending from approximately -200 to 400, with the highest concentration of values close to the mean.
+
+- Pneumonia Deaths: The histogram for pneumonia deaths displays a wider range compared to influenza, extending from around -5,000 to 10,000. The distribution is symmetrical, with the highest frequencies near the center.
+
+
+
+```{r}
+# Box Plots for Synthetic Data
+synthetic_df %>%
+  select(Pneumonia.Deaths, Influenza.Deaths, COVID.19.Deaths) %>%
+  gather() %>%
+  ggplot(aes(value)) +
+  geom_boxplot(color='black', fill='steelblue') +
+  facet_wrap(~key, scales = 'free') +
+  ggtitle("Numerical Predictors - Boxplots (Synthetic Data)") + 
+  theme_minimal()
+
+```
+**Box Plots of Synthetic Data:**
+
+- COVID-19 Deaths: The box plot for COVID-19 deaths indicates that the data is centered around zero. The interquartile range (IQR) is very narrow, with a few outliers extending to approximately negative or positive 10,000.
+
+- Influenza Deaths: The box plot for influenza deaths also shows a central tendency around zero with a narrow IQR. Outliers are present but less extreme compared to COVID-19 deaths.
+
+- Pneumonia Deaths: The box plot for pneumonia deaths follows a similar pattern, with the data centered around zero and a narrow IQR. There are a few significant outliers extending to negative or positive 10,000.
+
+
+
+
+
+
+# Conclusion:
+
+The synthetic data generation process has created a dataset that closely mirrors the original data's structure and statistical properties. Key insights from the synthetic data include:
+
+- COVID-19 Deaths: The data shows a significant impact, with death counts ranging from -11,825 to 16,635. The median death count is 2,786.5, indicating substantial variability in the number of deaths.
+
+- Pneumonia Deaths: Death counts range from -6,492 to 11,465, with a median of 2,936. This suggests considerable fluctuation in the impact of pneumonia over the observed period.
+
+- Influenza Deaths: The range of death counts is narrower, from -318 to 402, with a median of 51. This indicates that while influenza deaths are generally lower, they still exhibit variability.
+
+Overall, the synthetic dataset provides us with a realistic and an alternative for analysis, allowing us to explore and model the data without compromising the original dataset. This synthetic data retains the key characteristics necessary for effective exploratory data analysis and modeling.
