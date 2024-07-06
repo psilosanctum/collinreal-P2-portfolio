@@ -23,6 +23,8 @@ website:
             file: assignments/market_segmentation/pca_kmeans_market_segmentation.qmd
           - text: "Video Processing in Python"
             file: data-exercise/data-exercise.qmd
+          - text: "CDC Data Exercise"
+            file: cdcdata-exercise/cdcdata-exercise.qmd
     right:
       - icon: github 
         href: https://github.com/psilosanctum/collinreal-P2-portfolio        
