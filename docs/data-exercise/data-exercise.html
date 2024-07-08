@@ -151,6 +151,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../data-exercise/data-exercise.html" rel="" target="">
  <span class="dropdown-text">Video Processing in Python</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../cdcdata-exercise/cdcdata-exercise.html" rel="" target="">
+ <span class="dropdown-text">CDC Data Exercise</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -348,60 +352,60 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>query_route_data(BASE_URL<span class="op">=</span>BASE_URL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                       fullname   length  create_time  \
-262  INSERT-DONGLE-ID-HERE|2024-04-07--06-08-29  156.534   1712870311   
-182  INSERT-DONGLE-ID-HERE|2024-05-07--16-10-54  139.620   1715288166   
-26   INSERT-DONGLE-ID-HERE|00000010--81d5c2726b  138.466   1718914246   
-342  INSERT-DONGLE-ID-HERE|2024-03-07--19-35-36  137.845   1709869924   
-397  INSERT-DONGLE-ID-HERE|2024-02-22--19-21-56  137.806   1708659973   
+312  INSERT-DONGLE-ID-HERE|2024-04-07--06-08-29  156.534   1712870311   
+232  INSERT-DONGLE-ID-HERE|2024-05-07--16-10-54  139.620   1715288166   
+76   INSERT-DONGLE-ID-HERE|00000010--81d5c2726b  138.466   1718914246   
+392  INSERT-DONGLE-ID-HERE|2024-03-07--19-35-36  137.845   1709869924   
+447  INSERT-DONGLE-ID-HERE|2024-02-22--19-21-56  137.806   1708659973   
 
      end_time_utc_millis    end_time  init_logmonotime  maxqcamera  maxqlog  \
-262        1712514891000  2024-04-07   599843939121748         146      146   
-182        1715129896000  2024-05-08   111658668871310         227      227   
-26         1718914178000  2024-06-20       39606234306         165      165   
-342        1709869718000  2024-03-08   212451552872081         132      132   
-397        1708659678000  2024-02-23   630945949563076         139      139   
+312        1712514891000  2024-04-07   599843939121748         146      146   
+232        1715129896000  2024-05-08   111658668871310         227      227   
+76         1718914178000  2024-06-20       39606234306         165      165   
+392        1709869718000  2024-03-08   212451552872081         132      132   
+447        1708659678000  2024-02-23   630945949563076         139      139   
 
               platform  procqcamera  procqlog  \
-262  TOYOTA CAMRY 2021          146       146   
-182  TOYOTA CAMRY 2021          227       227   
-26   TOYOTA_CAMRY_TSS2          165       165   
-342  TOYOTA CAMRY 2021          132       132   
-397  TOYOTA CAMRY 2021          139       139   
+312  TOYOTA CAMRY 2021          146       146   
+232  TOYOTA CAMRY 2021          227       227   
+76   TOYOTA_CAMRY_TSS2          165       165   
+392  TOYOTA CAMRY 2021          132       132   
+447  TOYOTA CAMRY 2021          139       139   
 
                                      segment_end_times  \
-262  [1712506162000, 1712506222000, 1712506282000, ...   
-182  [1715116312000, 1715116372000, 1715116432000, ...   
-26   [1718904334000, 1718904394000, 1718904454000, ...   
-342  [1709861796000, 1709861856000, 1709861916000, ...   
-397  [1708651376000, 1708651436000, 1708651496000, ...   
+312  [1712506162000, 1712506222000, 1712506282000, ...   
+232  [1715116312000, 1715116372000, 1715116432000, ...   
+76   [1718904334000, 1718904394000, 1718904454000, ...   
+392  [1709861796000, 1709861856000, 1709861916000, ...   
+447  [1708651376000, 1708651436000, 1708651496000, ...   
 
                                        segment_numbers  \
-262  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,...   
-182  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,...   
-26   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,...   
-342  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,...   
-397  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,...   
+312  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,...   
+232  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,...   
+76   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,...   
+392  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,...   
+447  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,...   
 
                                    segment_start_times  start_time_utc_millis  \
-262  [1712506102000, 1712506162000, 1712506222000, ...          1712506102000   
-182  [1715116252000, 1715116312000, 1715116372000, ...          1715116252000   
-26   [1718904274000, 1718904334000, 1718904394000, ...          1718904274000   
-342  [1709861736000, 1709861796000, 1709861856000, ...          1709861736000   
-397  [1708651316000, 1708651376000, 1708651436000, ...          1708651316000   
+312  [1712506102000, 1712506162000, 1712506222000, ...          1712506102000   
+232  [1715116252000, 1715116312000, 1715116372000, ...          1715116252000   
+76   [1718904274000, 1718904334000, 1718904394000, ...          1718904274000   
+392  [1709861736000, 1709861796000, 1709861856000, ...          1709861736000   
+447  [1708651316000, 1708651376000, 1708651436000, ...          1708651316000   
 
            version  time_diff_millis  time_diff_seconds  time_diff_minutes  \
-262  0.9.6-release           8789000             8789.0         146.483333   
-182  0.9.6-release          13644000            13644.0         227.400000   
-26   0.9.7-release           9904000             9904.0         165.066667   
-342  0.9.6-release           7982000             7982.0         133.033333   
-397  0.9.5-release           8362000             8362.0         139.366667   
+312  0.9.6-release           8789000             8789.0         146.483333   
+232  0.9.6-release          13644000            13644.0         227.400000   
+76   0.9.7-release           9904000             9904.0         165.066667   
+392  0.9.6-release           7982000             7982.0         133.033333   
+447  0.9.5-release           8362000             8362.0         139.366667   
 
      time_diff_hours  
-262         2.441389  
-182         3.790000  
-26          2.751111  
-342         2.217222  
-397         2.322778  </code></pre>
+312         2.441389  
+232         3.790000  
+76          2.751111  
+392         2.217222  
+447         2.322778  </code></pre>
 </div>
 </div>
 </section>
@@ -453,15 +457,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>Total number of URLs to download: 147
 
  Preview 5 URLs:
-https://commadata2.blob.core.windows.net/qlog/INSERT-DONGLE-ID-HERE/2024-04-07--06-08-29/0/qcamera.ts?se=2024-06-29T05%3A31%3A56Z&amp;sp=r&amp;sv=2024-05-04&amp;sr=b&amp;rscd=attachment%3B%20filename%3DINSERT-DONGLE-ID-HERE_2024-04-07--06-08-29--0--qcamera.ts&amp;sig=q6JX4aNZIKcTE3dKekSFGQxsxdZ7/iPUVj1xqTty7o4%3D 
+https://commadata2.blob.core.windows.net/qlog/INSERT-DONGLE-ID-HERE/2024-04-07--06-08-29/0/qcamera.ts?se=2024-07-08T05%3A20%3A25Z&amp;sp=r&amp;sv=2024-05-04&amp;sr=b&amp;rscd=attachment%3B%20filename%3DINSERT-DONGLE-ID-HERE_2024-04-07--06-08-29--0--qcamera.ts&amp;sig=ZMncEQRH%2BF1Gr8KT63pZ3fmZkqz%2BH6zgF6NEZf%2B9aZ0%3D 
 
-https://commadata2.blob.core.windows.net/qlog/INSERT-DONGLE-ID-HERE/2024-04-07--06-08-29/1/qcamera.ts?se=2024-06-29T05%3A31%3A56Z&amp;sp=r&amp;sv=2024-05-04&amp;sr=b&amp;rscd=attachment%3B%20filename%3DINSERT-DONGLE-ID-HERE_2024-04-07--06-08-29--1--qcamera.ts&amp;sig=QSOHrRpNkd9QRz0tgxn//UWGV5JBO5YIpYsE75VXzb4%3D 
+https://commadata2.blob.core.windows.net/qlog/INSERT-DONGLE-ID-HERE/2024-04-07--06-08-29/1/qcamera.ts?se=2024-07-08T05%3A20%3A25Z&amp;sp=r&amp;sv=2024-05-04&amp;sr=b&amp;rscd=attachment%3B%20filename%3DINSERT-DONGLE-ID-HERE_2024-04-07--06-08-29--1--qcamera.ts&amp;sig=Vt6DehtOJDSLzR9F7sMteBm1bB4VTDuKLfvcG4Ws6xM%3D 
 
-https://commadata2.blob.core.windows.net/qlog/INSERT-DONGLE-ID-HERE/2024-04-07--06-08-29/2/qcamera.ts?se=2024-06-29T05%3A31%3A56Z&amp;sp=r&amp;sv=2024-05-04&amp;sr=b&amp;rscd=attachment%3B%20filename%3DINSERT-DONGLE-ID-HERE_2024-04-07--06-08-29--2--qcamera.ts&amp;sig=d6EQhljWv6fvEW8eN6Kc2D8joc5anSvDyofDHF%2BtR74%3D 
+https://commadata2.blob.core.windows.net/qlog/INSERT-DONGLE-ID-HERE/2024-04-07--06-08-29/2/qcamera.ts?se=2024-07-08T05%3A20%3A25Z&amp;sp=r&amp;sv=2024-05-04&amp;sr=b&amp;rscd=attachment%3B%20filename%3DINSERT-DONGLE-ID-HERE_2024-04-07--06-08-29--2--qcamera.ts&amp;sig=W5MrmI/5kQnEY%2BJFN/U/mSydKxQui2yHtATi2Wz65uw%3D 
 
-https://commadata2.blob.core.windows.net/qlog/INSERT-DONGLE-ID-HERE/2024-04-07--06-08-29/3/qcamera.ts?se=2024-06-29T05%3A31%3A56Z&amp;sp=r&amp;sv=2024-05-04&amp;sr=b&amp;rscd=attachment%3B%20filename%3DINSERT-DONGLE-ID-HERE_2024-04-07--06-08-29--3--qcamera.ts&amp;sig=WXx22sFTQGziQv2ZfFF6A4PALL2MoDqKmgZNMPpvK1c%3D 
+https://commadata2.blob.core.windows.net/qlog/INSERT-DONGLE-ID-HERE/2024-04-07--06-08-29/3/qcamera.ts?se=2024-07-08T05%3A20%3A25Z&amp;sp=r&amp;sv=2024-05-04&amp;sr=b&amp;rscd=attachment%3B%20filename%3DINSERT-DONGLE-ID-HERE_2024-04-07--06-08-29--3--qcamera.ts&amp;sig=ef/7EcTnzz6SBo7rd2Jzzgu2mXoMpZlPADC/uVNG8jg%3D 
 
-https://commadata2.blob.core.windows.net/qlog/INSERT-DONGLE-ID-HERE/2024-04-07--06-08-29/4/qcamera.ts?se=2024-06-29T05%3A31%3A56Z&amp;sp=r&amp;sv=2024-05-04&amp;sr=b&amp;rscd=attachment%3B%20filename%3DINSERT-DONGLE-ID-HERE_2024-04-07--06-08-29--4--qcamera.ts&amp;sig=At6cC5eEOaKbrPQLWoYzahVGpmf9Zs79vRsGkkWZLFY%3D 
+https://commadata2.blob.core.windows.net/qlog/INSERT-DONGLE-ID-HERE/2024-04-07--06-08-29/4/qcamera.ts?se=2024-07-08T05%3A20%3A25Z&amp;sp=r&amp;sv=2024-05-04&amp;sr=b&amp;rscd=attachment%3B%20filename%3DINSERT-DONGLE-ID-HERE_2024-04-07--06-08-29--4--qcamera.ts&amp;sig=aao%2BFrSwEpWJ2ycNDkz0OQ0D4JnZ%2BdHPPwhIFcRoFyQ%3D 
 </code></pre>
 </div>
 </div>
