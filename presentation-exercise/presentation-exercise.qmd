@@ -1,5 +1,147 @@
 ---
 title: "Presentation Exercise"
+author: "Collin Real"
+format:
+    html:
+        theme: cyborg
+execute: 
+  warning: false
+  error: false
 ---
 
-Placeholder file for the future data/results presentation exercise.
+## Data Source
+Article URL: https://projects.fivethirtyeight.com/clinton-trump-hip-hop-lyrics/
+Dataset: https://github.com/fivethirtyeight/data/tree/master/hip-hop-candidate-lyrics
+
+## AI Prompts
+- use the csv file to create a graph like the png file using R
+- Using the same CSV file, use the R package gt to create a nice table
+- add some pretty formatting to this table
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+
+# Load the CSV file
+file_path <- 'genius_hip_hop_lyrics.csv'
+df <- read.csv(file_path, encoding = "latin1")
+
+# Convert the 'album_release_date' column to Date format and extract the year
+df$album_release_date <- as.Date(df$album_release_date, "%Y")
+
+# Filter data to include only mentions from the year 1990 onwards
+df <- df %>% as.numeric(album_release_date)
+
+df$candidate_last <- sub(".*\\s([A-Za-z]+)$", "\\1", df$candidate)
+
+
+# Define candidate colors
+candidate_colors <- c(
+    'Clinton' = '#1E90FF',  # Dodger Blue
+    'Bush' = '#FF6347',  # Tomato
+    'Christie' = '#D3D3D3',  # Light Gray
+    'Huckabee' = '#FFFF00',  # Yellow
+    'Sanders' = '#32CD32',  # Lime Green
+    'Carson' = '#8A2BE2',  # Blue Violet
+    'Cruz' = '#FF69B4',  # Hot Pink
+    'Trump' = '#FFA500',  # Orange
+)
+
+# Plot the data
+ggplot(df, aes(x = as.numeric(album_release_date), fill = candidate)) +
+  geom_dotplot(binwidth = 1, stackdir = "up", dotsize = 0.8, method = 'dotdensity') +
+  scale_fill_manual(values = candidate_colors) +
+  scale_x_continuous(breaks=seq(1990,2020,by=5)) +
+  theme_minimal() +
+  labs(
+    title = "Every mention of 2016 primary candidates in hip-hop songs",
+    x = "Year",
+    y = "Mentions",
+    fill = "Candidate"
+  ) +
+  theme(
+    plot.title = element_text(size = 16, hjust = 0.5),
+    axis.title = element_text(size = 14),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(size = 11),
+    legend.position="top",
+  )
+```
+
+```{r}
+# Load necessary libraries
+library(dplyr)
+library(gt)
+
+# Load the CSV file
+file_path <- 'genius_hip_hop_lyrics.csv'
+df <- read.csv(file_path, encoding = "latin1")
+
+# Convert the 'album_release_date' column to Date format and extract the year
+df$album_release_date <- as.Date(df$album_release_date, "%Y-%m-%d")
+
+# Filter data to include only mentions from the year 1990 onwards
+df <- df %>% filter(as.numeric(album_release_date) >= 1990)
+
+# Create a summary table
+summary_table <- df %>%
+  group_by(candidate, album_release_date) %>%
+  summarise(mentions = n()) %>%
+  ungroup() %>%
+  arrange(desc(mentions))
+
+# Create a nice table using gt
+gt_table <- gt(summary_table) %>%
+  tab_header(
+    title = "Mentions of 2016 Primary Candidates in Hip-Hop Songs",
+    subtitle = "Summary by Candidate and Year"
+  ) %>%
+  cols_label(
+    candidate = "Candidate",
+    album_release_date = "Year",
+    mentions = "Number of Mentions"
+  ) %>%
+  fmt_number(
+    columns = vars(mentions),
+    decimals = 0
+  ) %>%
+   tab_options(
+    table.font.size = "medium",
+    heading.title.font.size = "large",
+    heading.subtitle.font.size = "medium",
+    column_labels.font.size = "medium",
+    table.border.top.color = "gray",
+    table.border.bottom.color = "gray",
+    table_body.border.top.color = "gray",
+    table_body.border.bottom.color = "gray",
+    column_labels.border.top.color = "gray",
+    column_labels.border.bottom.color = "gray",
+    data_row.padding = px(5)
+  ) %>%
+  tab_style(
+    style = list(
+      cell_fill(color = "lightblue"),
+      cell_borders(sides = "all", color = "white", weight = px(2)),
+      cell_text(weight = "bold")
+    ),
+    locations = cells_body(
+      columns = vars(candidate),
+      rows = TRUE
+    )
+  ) %>%
+  tab_style(
+    style = list(
+      cell_fill(color = "lightgray"),
+      cell_borders(sides = "all", color = "white", weight = px(2))
+    ),
+    locations = cells_body(
+      columns = vars(album_release_date, mentions),
+      rows = TRUE
+    )
+  )
+
+# Print the table
+print(gt_table)
+
+```
