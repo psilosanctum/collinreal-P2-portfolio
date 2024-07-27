@@ -1,5 +1,247 @@
 ---
 title: "Tidy Tuesday Exercise"
+author: "Collin Real"
+execute: 
+    warning: false
+    error: false
+format: html
+theme: cyborg
 ---
 
-Placeholder file for the future Tidy Tuesday exercise.
+#### Import libraries 
+```{python}
+import pandas as pd
+import ssl
+from functools import reduce
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report
+from sklearn.preprocessing import LabelEncoder
+ssl._create_default_https_context = ssl._create_unverified_context
+pd.set_option('display.max_columns', None)
+```
+
+#### Load auditions data
+```{python}
+auditions_df = pd.read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-07-23/auditions.csv', encoding='unicode_escape')
+auditions_df.head(5)
+```
+
+#### Load eliminations data
+```{python}
+eliminations_df = pd.read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-07-23/eliminations.csv', encoding='unicode_escape')
+eliminations_df.head(5)
+```
+
+#### Load finalists data
+```{python}
+finalists_df = pd.read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-07-23/finalists.csv', encoding='unicode_escape')
+finalists_df.head(5)
+```
+
+#### Load ratings data
+```{python}
+ratings_df = pd.read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-07-23/ratings.csv', encoding='unicode_escape')
+ratings_df.head(5)
+```
+
+#### Load seasons data
+```{python}
+seasons_df = pd.read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-07-23/seasons.csv', encoding='unicode_escape')
+seasons_df.head(5)
+```
+
+#### Load songs data
+```{python}
+songs_df = pd.read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-07-23/songs.csv', encoding='unicode_escape')
+songs_df.head(5)
+```
+
+#### Data cleaning - Fix dtype
+```{python}
+# Change 'season' column in songs dataset to int for joins with other datasets
+seasons_reformat_list = []
+for row in songs_df['season']:
+    new_row = row.replace('Season', '').replace('_0', '').replace('_', '')
+    seasons_reformat_list.append(new_row)
+songs_df['season'] = seasons_reformat_list
+songs_df['season'] = songs_df['season'].astype(int)
+songs_df.head(5)
+```
+
+## Exploratory Data Analysis
+```{python}
+from plotnine import (
+    ggplot,
+    aes,
+    geom_boxplot,
+    geom_jitter,
+    scale_x_discrete,
+    coord_flip,
+    facet_wrap,
+    geom_histogram,
+    geom_bar
+)
+```
+
+#### Raw boxplot viewers by seasons
+```{python}
+seasons = ratings_df['season'].unique().tolist()
+(
+    ggplot(ratings_df)
+    + geom_boxplot(aes(x="factor(season)", y="viewers_in_millions"))
+    + scale_x_discrete(labels=seasons, name="season")  # change ticks labels on OX
+)
+```
+
+#### Histogram - Viewers by Season
+```{python}
+ratings2 = ratings_df[['season', 'viewers_in_millions', '18_49_rating_share']]
+(
+    ggplot(ratings2)
+    + geom_histogram(aes(x="viewers_in_millions"), fill='red', colour='black')
+    + facet_wrap("season")
+)
+```
+
+#### Raw boxplot viewers by show number
+```{python}
+show_number = ratings_df['show_number'].unique().tolist()
+(
+    ggplot(ratings_df)
+    + geom_boxplot(aes(x="factor(show_number)", y="viewers_in_millions"))
+    + scale_x_discrete(labels=show_number, name="show_number")  # change ticks labels on OX
+)
+```
+
+#### Gender contestants by season
+```{python}
+male_contestants_season = eliminations_df[eliminations_df['gender'] == 'Male'].groupby('season').count()['contestant'].reset_index().rename(columns={'contestant': 'male_contestants'})
+# male_contestants_season['gender'] = 'Male'
+
+female_contestants_season = eliminations_df[eliminations_df['gender'] == 'Female'].groupby('season').count()['contestant'].reset_index().rename(columns={'contestant': 'female_contestants'})
+# female_contestants_season['gender'] = 'Female'
+
+contestants = male_contestants_season.merge(female_contestants_season, on='season')
+contestants['total_contestants'] = contestants['male_contestants'] + contestants['female_contestants']
+contestants['male_ratio'] = contestants['male_contestants'] / contestants['total_contestants']
+contestants['female_ratio'] = contestants['female_contestants'] / contestants['total_contestants']
+
+male_contestants = contestants[['season', 'male_contestants', 'male_ratio']].rename(columns={'male_contestants': 'contestants', 'male_ratio': 'ratio'})
+male_contestants['gender'] = 'Male'
+
+female_contestants = contestants[['season', 'female_contestants', 'female_ratio']].rename(columns={'female_contestants': 'contestants', 'female_ratio': 'ratio'})
+female_contestants['gender'] = 'Female'
+
+final_contestants_df = pd.concat([male_contestants, female_contestants])
+final_contestants_df
+```
+
+#### Plot Gender Ratio
+```{python}
+(
+    ggplot(final_contestants_df, aes(x="season", y="ratio", fill="gender"))
+    + geom_bar(stat="identity")
+)
+```
+
+## Merge & split datasets, encode categorical variables and select features
+Question: Can predict the winner using the features gender, viewers_in_millions, tickets_to_hollywood, and audition city?
+```{python}
+# Merge the dataframes
+merged_df = pd.merge(auditions_df, eliminations_df, on='season', how='left')
+merged_df = pd.merge(merged_df, finalists_df, left_on=['season', 'contestant'], right_on=['Season', 'Contestant'], how='left')
+merged_df = pd.merge(merged_df, ratings_df, on='season', how='left')
+merged_df = pd.merge(merged_df, seasons_df, on='season', how='left')
+merged_df = pd.merge(merged_df, songs_df, on=['season', 'contestant'], how='left')
+
+# Handle missing values
+merged_df.fillna(0, inplace=True)
+
+# Feature selection
+merged_df = merged_df[['gender', 'viewers_in_millions', 'winner', 'audition_city', 'tickets_to_hollywood']].drop_duplicates()
+
+# Encoding categorical variables
+label_encoders = {}
+categorical_columns = merged_df.select_dtypes(include=['object']).columns
+
+for column in categorical_columns:
+    le = LabelEncoder()
+    merged_df[column] = le.fit_transform(merged_df[column].astype(str))
+    label_encoders[column] = le
+
+# Defining the target variable and features
+# Assuming 'winner' column in seasons_df as target
+target = 'winner'
+features = merged_df.columns.difference([target])
+
+X = merged_df[features]
+y = merged_df[target]
+
+# Splitting the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+```
+
+## Random Forest Classifier
+```{python}
+from sklearn.ensemble import RandomForestClassifier
+# Training the model
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+
+# Making predictions
+y_pred = model.predict(X_test)
+
+# Evaluating the model
+accuracy = accuracy_score(y_test, y_pred)
+report = classification_report(y_test, y_pred, output_dict=True)
+
+print("Accuracy:", accuracy)
+print("Classification Report:", classification_report(y_test, y_pred))
+```
+
+## Neural Network
+```{python}
+from sklearn.neural_network import MLPClassifier
+# Training the neural network model
+nn_model = MLPClassifier(hidden_layer_sizes=(100,), max_iter=1000, random_state=42)
+nn_model.fit(X_train, y_train)
+
+# Making predictions
+y_pred = nn_model.predict(X_test)
+
+# Evaluating the model
+accuracy = accuracy_score(y_test, y_pred)
+report = classification_report(y_test, y_pred)
+
+print("Accuracy:", accuracy)
+print("Classification Report:", report)
+
+```
+
+## Logistic Regression
+```{python}
+from sklearn.linear_model import LogisticRegression
+# Training the logistic regression model
+lr_model = LogisticRegression(max_iter=1000, random_state=42)
+lr_model.fit(X_train, y_train)
+
+# Making predictions
+y_pred = lr_model.predict(X_test)
+
+# Evaluating the model
+accuracy = accuracy_score(y_test, y_pred)
+report = classification_report(y_test, y_pred)
+
+print("Accuracy:", accuracy)
+print("Classification Report:", report)
+```
+
+## Conclusion
+We trained 3 models to predict the American Idol winner using features: gender, viewers_in_millions, tickets_to_hollywood, and audition city. The three models we used were the random forest classifier, neural network, and logistic regression. <br/>
+
+#### Accuracy Scores
+- Random forest classifier: 0.9828503843879361
+- Neural network: 0.8675340035481963
+- Logistic regression: 0.5340035481963336
+
+The random classifier model had the greatest accuracy store, but such a high score might indicate that the model is overfitting. 

@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Collin Real">
 
 <title>Collin Real - Data Analysis Portfolio - Tidy Tuesday Exercise</title>
 <style>
@@ -19,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -59,6 +94,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -151,6 +189,12 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Collin Real </p>
+          </div>
+  </div>
     
   
     
@@ -159,9 +203,1493 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Placeholder file for the future Tidy Tuesday exercise.</p>
+<section id="import-libraries" class="level4">
+<h4 class="anchored" data-anchor-id="import-libraries">Import libraries</h4>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ssl</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> functools <span class="im">import</span> <span class="bu">reduce</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, classification_report</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> LabelEncoder</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>ssl._create_default_https_context <span class="op">=</span> ssl._create_unverified_context</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">'display.max_columns'</span>, <span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="load-auditions-data" class="level4">
+<h4 class="anchored" data-anchor-id="load-auditions-data">Load auditions data</h4>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>auditions_df <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-07-23/auditions.csv'</span>, encoding<span class="op">=</span><span class="st">'unicode_escape'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>auditions_df.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
 
 
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">season</th>
+<th data-quarto-table-cell-role="th">audition_date_start</th>
+<th data-quarto-table-cell-role="th">audition_date_end</th>
+<th data-quarto-table-cell-role="th">audition_city</th>
+<th data-quarto-table-cell-role="th">audition_venue</th>
+<th data-quarto-table-cell-role="th">episodes</th>
+<th data-quarto-table-cell-role="th">episode_air_date</th>
+<th data-quarto-table-cell-role="th">callback_venue</th>
+<th data-quarto-table-cell-role="th">callback_date_start</th>
+<th data-quarto-table-cell-role="th">callback_date_end</th>
+<th data-quarto-table-cell-role="th">tickets_to_hollywood</th>
+<th data-quarto-table-cell-role="th">guest_judge</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>2002-04-20</td>
+<td>2002-04-22</td>
+<td>Los Angeles, California</td>
+<td>Westin Bonaventure Hotel</td>
+<td>NaN</td>
+<td>11-Jun-02</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>31.0</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>2002-04-23</td>
+<td>2002-04-25</td>
+<td>Seattle, Washington</td>
+<td>Hyatt Regency Hotel</td>
+<td>NaN</td>
+<td>11-Jun-02</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>10.0</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1</td>
+<td>2002-04-26</td>
+<td>2002-04-28</td>
+<td>Chicago, Illinois</td>
+<td>Congress Plaza Hotel</td>
+<td>NaN</td>
+<td>11-Jun-02</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>23.0</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1</td>
+<td>2002-04-29</td>
+<td>2002-05-01</td>
+<td>New York City, New York</td>
+<td>Millenium Hilton Hotel</td>
+<td>NaN</td>
+<td>11-Jun-02</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>25.0</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>1</td>
+<td>2002-05-03</td>
+<td>2002-05-05</td>
+<td>Atlanta, Georgia</td>
+<td>AmericasMart/Callanwolde Fine Arts Center</td>
+<td>NaN</td>
+<td>11-Jun-02</td>
+<td>NaN</td>
+<td>2002-03-05</td>
+<td>2002-03-05</td>
+<td>15.0</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="load-eliminations-data" class="level4">
+<h4 class="anchored" data-anchor-id="load-eliminations-data">Load eliminations data</h4>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>eliminations_df <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-07-23/eliminations.csv'</span>, encoding<span class="op">=</span><span class="st">'unicode_escape'</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>eliminations_df.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">season</th>
+<th data-quarto-table-cell-role="th">place</th>
+<th data-quarto-table-cell-role="th">gender</th>
+<th data-quarto-table-cell-role="th">contestant</th>
+<th data-quarto-table-cell-role="th">top_36</th>
+<th data-quarto-table-cell-role="th">top_36_2</th>
+<th data-quarto-table-cell-role="th">top_36_3</th>
+<th data-quarto-table-cell-role="th">top_36_4</th>
+<th data-quarto-table-cell-role="th">top_32</th>
+<th data-quarto-table-cell-role="th">top_32_2</th>
+<th data-quarto-table-cell-role="th">top_32_3</th>
+<th data-quarto-table-cell-role="th">top_32_4</th>
+<th data-quarto-table-cell-role="th">top_30</th>
+<th data-quarto-table-cell-role="th">top_30_2</th>
+<th data-quarto-table-cell-role="th">top_30_3</th>
+<th data-quarto-table-cell-role="th">top_25</th>
+<th data-quarto-table-cell-role="th">top_25_2</th>
+<th data-quarto-table-cell-role="th">top_25_3</th>
+<th data-quarto-table-cell-role="th">top_24</th>
+<th data-quarto-table-cell-role="th">top_24_2</th>
+<th data-quarto-table-cell-role="th">top_24_3</th>
+<th data-quarto-table-cell-role="th">top_20</th>
+<th data-quarto-table-cell-role="th">top_20_2</th>
+<th data-quarto-table-cell-role="th">top_16</th>
+<th data-quarto-table-cell-role="th">top_14</th>
+<th data-quarto-table-cell-role="th">top_13</th>
+<th data-quarto-table-cell-role="th">top_12</th>
+<th data-quarto-table-cell-role="th">top_11</th>
+<th data-quarto-table-cell-role="th">top_11_2</th>
+<th data-quarto-table-cell-role="th">wildcard</th>
+<th data-quarto-table-cell-role="th">comeback</th>
+<th data-quarto-table-cell-role="th">top_10</th>
+<th data-quarto-table-cell-role="th">top_9</th>
+<th data-quarto-table-cell-role="th">top_9_2</th>
+<th data-quarto-table-cell-role="th">top_8</th>
+<th data-quarto-table-cell-role="th">top_8_2</th>
+<th data-quarto-table-cell-role="th">top_7</th>
+<th data-quarto-table-cell-role="th">top_7_2</th>
+<th data-quarto-table-cell-role="th">top_6</th>
+<th data-quarto-table-cell-role="th">top_6_2</th>
+<th data-quarto-table-cell-role="th">top_5</th>
+<th data-quarto-table-cell-role="th">top_5_2</th>
+<th data-quarto-table-cell-role="th">top_4</th>
+<th data-quarto-table-cell-role="th">top_4_2</th>
+<th data-quarto-table-cell-role="th">top_3</th>
+<th data-quarto-table-cell-role="th">finale</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>1</td>
+<td>Female</td>
+<td>Kelly Clarkson</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Safe (2nd)</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>Winner</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>2</td>
+<td>Male</td>
+<td>Justin Guarini</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Safe (1st)</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>Bottom Two</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>Runner-Up</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1</td>
+<td>3</td>
+<td>Female</td>
+<td>Nikki McKibbin</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Safe (2nd)</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Bottom Three</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>Bottom Three</td>
+<td>NaN</td>
+<td>Bottom Three</td>
+<td>NaN</td>
+<td>Bottom Two</td>
+<td>NaN</td>
+<td>Bottom Two</td>
+<td>NaN</td>
+<td>Eliminated</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1</td>
+<td>4</td>
+<td>Female</td>
+<td>Tamyra Gray</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Safe (1st)</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>Eliminated</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>1</td>
+<td>5</td>
+<td>Male</td>
+<td>R. J. Helton</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Wild Card</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Saved</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>Safe</td>
+<td>NaN</td>
+<td>Bottom Two</td>
+<td>NaN</td>
+<td>Eliminated</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="load-finalists-data" class="level4">
+<h4 class="anchored" data-anchor-id="load-finalists-data">Load finalists data</h4>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>finalists_df <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-07-23/finalists.csv'</span>, encoding<span class="op">=</span><span class="st">'unicode_escape'</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>finalists_df.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Contestant</th>
+<th data-quarto-table-cell-role="th">Birthday</th>
+<th data-quarto-table-cell-role="th">Birthplace</th>
+<th data-quarto-table-cell-role="th">Hometown</th>
+<th data-quarto-table-cell-role="th">Description</th>
+<th data-quarto-table-cell-role="th">Season</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Kelly Clarkson</td>
+<td>24-Apr-82</td>
+<td>Fort Worth, Texas</td>
+<td>Burleson, Texas</td>
+<td>She performed Aretha Franklin's version of "Re...</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Justin Guarini</td>
+<td>28-Oct-78</td>
+<td>Columbus, Georgia</td>
+<td>Doylestown, Pennsylvania</td>
+<td>He performed Oleta Adams' version of "Get Her...</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Nikki McKibbin</td>
+<td>28-Sep-78</td>
+<td>Grand Prairie, Texas</td>
+<td>NaN</td>
+<td>She had previously been on Popstars and auditi...</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Tamyra Gray</td>
+<td>26-Jul-79</td>
+<td>Takoma Park, Maryland</td>
+<td>Atlanta, Georgia</td>
+<td>She had appeared on TV commercials and worked ...</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>R. J. Helton</td>
+<td>17-May-81</td>
+<td>Pasadena, Texas</td>
+<td>Cumming, Georgia</td>
+<td>J. Helton (born May 17, 1981, in Pasadena, Tex...</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="load-ratings-data" class="level4">
+<h4 class="anchored" data-anchor-id="load-ratings-data">Load ratings data</h4>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ratings_df <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-07-23/ratings.csv'</span>, encoding<span class="op">=</span><span class="st">'unicode_escape'</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ratings_df.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">season</th>
+<th data-quarto-table-cell-role="th">show_number</th>
+<th data-quarto-table-cell-role="th">episode</th>
+<th data-quarto-table-cell-role="th">airdate</th>
+<th data-quarto-table-cell-role="th">18_49_rating_share</th>
+<th data-quarto-table-cell-role="th">viewers_in_millions</th>
+<th data-quarto-table-cell-role="th">timeslot_et</th>
+<th data-quarto-table-cell-role="th">dvr_18_49</th>
+<th data-quarto-table-cell-role="th">dvr_viewers_millions</th>
+<th data-quarto-table-cell-role="th">total_18_49</th>
+<th data-quarto-table-cell-role="th">total_viewers_millions</th>
+<th data-quarto-table-cell-role="th">weekrank</th>
+<th data-quarto-table-cell-role="th">ref</th>
+<th data-quarto-table-cell-role="th">share</th>
+<th data-quarto-table-cell-role="th">nightlyrank</th>
+<th data-quarto-table-cell-role="th">rating_share_households</th>
+<th data-quarto-table-cell-role="th">rating_share</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>1</td>
+<td>Auditions</td>
+<td>June 11, 2002</td>
+<td>4.8</td>
+<td>9.85</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>12</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>6.1 / 11</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>2</td>
+<td>Hollywood Week</td>
+<td>June 12, 2002</td>
+<td>5.2</td>
+<td>11.24</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>6</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>6.9 / 12</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1</td>
+<td>3</td>
+<td>Top 30: Group 1</td>
+<td>June 18, 2002</td>
+<td>5.2</td>
+<td>10.30</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>6</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>6.2 / 11</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1</td>
+<td>4</td>
+<td>Top 30: Group 1 results</td>
+<td>June 19, 2002</td>
+<td>4.7</td>
+<td>9.47</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>22</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>5.8 / 10</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>1</td>
+<td>5</td>
+<td>Top 30: Group 2</td>
+<td>June 25, 2002</td>
+<td>4.5</td>
+<td>9.08</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>11</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>5.5 / 9</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="load-seasons-data" class="level4">
+<h4 class="anchored" data-anchor-id="load-seasons-data">Load seasons data</h4>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>seasons_df <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-07-23/seasons.csv'</span>, encoding<span class="op">=</span><span class="st">'unicode_escape'</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>seasons_df.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">season</th>
+<th data-quarto-table-cell-role="th">winner</th>
+<th data-quarto-table-cell-role="th">runner_up</th>
+<th data-quarto-table-cell-role="th">original_release</th>
+<th data-quarto-table-cell-role="th">original_network</th>
+<th data-quarto-table-cell-role="th">hosted_by</th>
+<th data-quarto-table-cell-role="th">judges</th>
+<th data-quarto-table-cell-role="th">no_of_episodes</th>
+<th data-quarto-table-cell-role="th">finals_venue</th>
+<th data-quarto-table-cell-role="th">mentor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>Kelly Clarkson</td>
+<td>Justin Guarini</td>
+<td>June 11Â&nbsp;(2002-06-11)Â&nbsp;â€“September 4, 2002Â&nbsp;(...</td>
+<td>Fox</td>
+<td>Ryan Seacrest; Brian Dunkleman</td>
+<td>Paula Abdul; Simon Cowell; Randy Jackson</td>
+<td>NaN</td>
+<td>Kodak Theatre</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>Ruben Studdard</td>
+<td>Clay Aiken</td>
+<td>January 21Â&nbsp;(2003-01-21)Â&nbsp;â€“May 21, 2003Â&nbsp;(20...</td>
+<td>Fox</td>
+<td>Ryan Seacrest</td>
+<td>Paula Abdul; Simon Cowell; Randy Jackson</td>
+<td>NaN</td>
+<td>Gibson Amphitheatre</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>Fantasia Barrino</td>
+<td>Diana DeGarmo</td>
+<td>January 19Â&nbsp;(2004-01-19)Â&nbsp;â€“May 26, 2004Â&nbsp;(20...</td>
+<td>Fox</td>
+<td>Ryan Seacrest</td>
+<td>Paula Abdul; Simon Cowell; Randy Jackson</td>
+<td>NaN</td>
+<td>Kodak Theatre</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4</td>
+<td>Carrie Underwood</td>
+<td>Bo Bice</td>
+<td>January 18Â&nbsp;(2005-01-18)Â&nbsp;â€“May 25, 2005Â&nbsp;(20...</td>
+<td>Fox</td>
+<td>Ryan Seacrest</td>
+<td>Paula Abdul; Simon Cowell; Randy Jackson</td>
+<td>NaN</td>
+<td>Kodak Theatre</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5</td>
+<td>Taylor Hicks</td>
+<td>Katharine McPhee</td>
+<td>January 17Â&nbsp;(2006-01-17)Â&nbsp;â€“May 24, 2006Â&nbsp;(20...</td>
+<td>Fox</td>
+<td>Ryan Seacrest</td>
+<td>Paula Abdul; Simon Cowell; Randy Jackson</td>
+<td>NaN</td>
+<td>Kodak Theatre</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="load-songs-data" class="level4">
+<h4 class="anchored" data-anchor-id="load-songs-data">Load songs data</h4>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>songs_df <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-07-23/songs.csv'</span>, encoding<span class="op">=</span><span class="st">'unicode_escape'</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>songs_df.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">season</th>
+<th data-quarto-table-cell-role="th">week</th>
+<th data-quarto-table-cell-role="th">order</th>
+<th data-quarto-table-cell-role="th">contestant</th>
+<th data-quarto-table-cell-role="th">song</th>
+<th data-quarto-table-cell-role="th">artist</th>
+<th data-quarto-table-cell-role="th">song_theme</th>
+<th data-quarto-table-cell-role="th">result</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Season_01</td>
+<td>20020618_top_30_group_1</td>
+<td>1</td>
+<td>Tamyra Gray</td>
+<td>And I Am Telling You I'm Not Going</td>
+<td>Jennifer Holliday</td>
+<td>NaN</td>
+<td>Advanced (1st)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Season_01</td>
+<td>20020618_top_30_group_1</td>
+<td>2</td>
+<td>Jim Verraros</td>
+<td>When I Fall in Love</td>
+<td>Doris Day</td>
+<td>NaN</td>
+<td>Advanced (3rd)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Season_01</td>
+<td>20020618_top_30_group_1</td>
+<td>3</td>
+<td>Adriel Herrera</td>
+<td>I'll Be</td>
+<td>Edwin McCain</td>
+<td>NaN</td>
+<td>Eliminated</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Season_01</td>
+<td>20020618_top_30_group_1</td>
+<td>4</td>
+<td>Rodesia Eaves</td>
+<td>Daydream Believer</td>
+<td>The Monkees</td>
+<td>NaN</td>
+<td>Eliminated</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Season_01</td>
+<td>20020618_top_30_group_1</td>
+<td>5</td>
+<td>Natalie Burge</td>
+<td>Crazy</td>
+<td>Patsy Cline</td>
+<td>NaN</td>
+<td>Eliminated</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="data-cleaning---fix-dtype" class="level4">
+<h4 class="anchored" data-anchor-id="data-cleaning---fix-dtype">Data cleaning - Fix dtype</h4>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Change 'season' column in songs dataset to int for joins with other datasets</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>seasons_reformat_list <span class="op">=</span> []</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> songs_df[<span class="st">'season'</span>]:</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    new_row <span class="op">=</span> row.replace(<span class="st">'Season'</span>, <span class="st">''</span>).replace(<span class="st">'_0'</span>, <span class="st">''</span>).replace(<span class="st">'_'</span>, <span class="st">''</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    seasons_reformat_list.append(new_row)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>songs_df[<span class="st">'season'</span>] <span class="op">=</span> seasons_reformat_list</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>songs_df[<span class="st">'season'</span>] <span class="op">=</span> songs_df[<span class="st">'season'</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>songs_df.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">season</th>
+<th data-quarto-table-cell-role="th">week</th>
+<th data-quarto-table-cell-role="th">order</th>
+<th data-quarto-table-cell-role="th">contestant</th>
+<th data-quarto-table-cell-role="th">song</th>
+<th data-quarto-table-cell-role="th">artist</th>
+<th data-quarto-table-cell-role="th">song_theme</th>
+<th data-quarto-table-cell-role="th">result</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>20020618_top_30_group_1</td>
+<td>1</td>
+<td>Tamyra Gray</td>
+<td>And I Am Telling You I'm Not Going</td>
+<td>Jennifer Holliday</td>
+<td>NaN</td>
+<td>Advanced (1st)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>20020618_top_30_group_1</td>
+<td>2</td>
+<td>Jim Verraros</td>
+<td>When I Fall in Love</td>
+<td>Doris Day</td>
+<td>NaN</td>
+<td>Advanced (3rd)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1</td>
+<td>20020618_top_30_group_1</td>
+<td>3</td>
+<td>Adriel Herrera</td>
+<td>I'll Be</td>
+<td>Edwin McCain</td>
+<td>NaN</td>
+<td>Eliminated</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1</td>
+<td>20020618_top_30_group_1</td>
+<td>4</td>
+<td>Rodesia Eaves</td>
+<td>Daydream Believer</td>
+<td>The Monkees</td>
+<td>NaN</td>
+<td>Eliminated</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>1</td>
+<td>20020618_top_30_group_1</td>
+<td>5</td>
+<td>Natalie Burge</td>
+<td>Crazy</td>
+<td>Patsy Cline</td>
+<td>NaN</td>
+<td>Eliminated</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="exploratory-data-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h2>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> (</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    ggplot,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    aes,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    geom_boxplot,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    geom_jitter,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    scale_x_discrete,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    coord_flip,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    facet_wrap,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    geom_histogram,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    geom_bar</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="raw-boxplot-viewers-by-seasons" class="level4">
+<h4 class="anchored" data-anchor-id="raw-boxplot-viewers-by-seasons">Raw boxplot viewers by seasons</h4>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>seasons <span class="op">=</span> ratings_df[<span class="st">'season'</span>].unique().tolist()</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    ggplot(ratings_df)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_boxplot(aes(x<span class="op">=</span><span class="st">"factor(season)"</span>, y<span class="op">=</span><span class="st">"viewers_in_millions"</span>))</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_x_discrete(labels<span class="op">=</span>seasons, name<span class="op">=</span><span class="st">"season"</span>)  <span class="co"># change ticks labels on OX</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="tidytuesday-exercise_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="histogram---viewers-by-season" class="level4">
+<h4 class="anchored" data-anchor-id="histogram---viewers-by-season">Histogram - Viewers by Season</h4>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ratings2 <span class="op">=</span> ratings_df[[<span class="st">'season'</span>, <span class="st">'viewers_in_millions'</span>, <span class="st">'18_49_rating_share'</span>]]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    ggplot(ratings2)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_histogram(aes(x<span class="op">=</span><span class="st">"viewers_in_millions"</span>), fill<span class="op">=</span><span class="st">'red'</span>, colour<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> facet_wrap(<span class="st">"season"</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="tidytuesday-exercise_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="raw-boxplot-viewers-by-show-number" class="level4">
+<h4 class="anchored" data-anchor-id="raw-boxplot-viewers-by-show-number">Raw boxplot viewers by show number</h4>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>show_number <span class="op">=</span> ratings_df[<span class="st">'show_number'</span>].unique().tolist()</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    ggplot(ratings_df)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_boxplot(aes(x<span class="op">=</span><span class="st">"factor(show_number)"</span>, y<span class="op">=</span><span class="st">"viewers_in_millions"</span>))</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_x_discrete(labels<span class="op">=</span>show_number, name<span class="op">=</span><span class="st">"show_number"</span>)  <span class="co"># change ticks labels on OX</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="tidytuesday-exercise_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="gender-contestants-by-season" class="level4">
+<h4 class="anchored" data-anchor-id="gender-contestants-by-season">Gender contestants by season</h4>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>male_contestants_season <span class="op">=</span> eliminations_df[eliminations_df[<span class="st">'gender'</span>] <span class="op">==</span> <span class="st">'Male'</span>].groupby(<span class="st">'season'</span>).count()[<span class="st">'contestant'</span>].reset_index().rename(columns<span class="op">=</span>{<span class="st">'contestant'</span>: <span class="st">'male_contestants'</span>})</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># male_contestants_season['gender'] = 'Male'</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>female_contestants_season <span class="op">=</span> eliminations_df[eliminations_df[<span class="st">'gender'</span>] <span class="op">==</span> <span class="st">'Female'</span>].groupby(<span class="st">'season'</span>).count()[<span class="st">'contestant'</span>].reset_index().rename(columns<span class="op">=</span>{<span class="st">'contestant'</span>: <span class="st">'female_contestants'</span>})</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># female_contestants_season['gender'] = 'Female'</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>contestants <span class="op">=</span> male_contestants_season.merge(female_contestants_season, on<span class="op">=</span><span class="st">'season'</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>contestants[<span class="st">'total_contestants'</span>] <span class="op">=</span> contestants[<span class="st">'male_contestants'</span>] <span class="op">+</span> contestants[<span class="st">'female_contestants'</span>]</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>contestants[<span class="st">'male_ratio'</span>] <span class="op">=</span> contestants[<span class="st">'male_contestants'</span>] <span class="op">/</span> contestants[<span class="st">'total_contestants'</span>]</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>contestants[<span class="st">'female_ratio'</span>] <span class="op">=</span> contestants[<span class="st">'female_contestants'</span>] <span class="op">/</span> contestants[<span class="st">'total_contestants'</span>]</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>male_contestants <span class="op">=</span> contestants[[<span class="st">'season'</span>, <span class="st">'male_contestants'</span>, <span class="st">'male_ratio'</span>]].rename(columns<span class="op">=</span>{<span class="st">'male_contestants'</span>: <span class="st">'contestants'</span>, <span class="st">'male_ratio'</span>: <span class="st">'ratio'</span>})</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>male_contestants[<span class="st">'gender'</span>] <span class="op">=</span> <span class="st">'Male'</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>female_contestants <span class="op">=</span> contestants[[<span class="st">'season'</span>, <span class="st">'female_contestants'</span>, <span class="st">'female_ratio'</span>]].rename(columns<span class="op">=</span>{<span class="st">'female_contestants'</span>: <span class="st">'contestants'</span>, <span class="st">'female_ratio'</span>: <span class="st">'ratio'</span>})</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>female_contestants[<span class="st">'gender'</span>] <span class="op">=</span> <span class="st">'Female'</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>final_contestants_df <span class="op">=</span> pd.concat([male_contestants, female_contestants])</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>final_contestants_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">season</th>
+<th data-quarto-table-cell-role="th">contestants</th>
+<th data-quarto-table-cell-role="th">ratio</th>
+<th data-quarto-table-cell-role="th">gender</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>14</td>
+<td>0.466667</td>
+<td>Male</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>15</td>
+<td>0.416667</td>
+<td>Male</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>12</td>
+<td>0.375000</td>
+<td>Male</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4</td>
+<td>12</td>
+<td>0.500000</td>
+<td>Male</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5</td>
+<td>12</td>
+<td>0.500000</td>
+<td>Male</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>6</td>
+<td>12</td>
+<td>0.500000</td>
+<td>Male</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>7</td>
+<td>12</td>
+<td>0.500000</td>
+<td>Male</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>8</td>
+<td>18</td>
+<td>0.500000</td>
+<td>Male</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>9</td>
+<td>12</td>
+<td>0.500000</td>
+<td>Male</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>10</td>
+<td>12</td>
+<td>0.500000</td>
+<td>Male</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>11</td>
+<td>13</td>
+<td>0.520000</td>
+<td>Male</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>12</td>
+<td>10</td>
+<td>0.500000</td>
+<td>Male</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>13</td>
+<td>10</td>
+<td>0.500000</td>
+<td>Male</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>14</td>
+<td>12</td>
+<td>0.500000</td>
+<td>Male</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>15</td>
+<td>11</td>
+<td>0.458333</td>
+<td>Male</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>16</td>
+<td>12</td>
+<td>0.500000</td>
+<td>Male</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>17</td>
+<td>11</td>
+<td>0.550000</td>
+<td>Male</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>18</td>
+<td>9</td>
+<td>0.450000</td>
+<td>Male</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>16</td>
+<td>0.533333</td>
+<td>Female</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>21</td>
+<td>0.583333</td>
+<td>Female</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>20</td>
+<td>0.625000</td>
+<td>Female</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4</td>
+<td>12</td>
+<td>0.500000</td>
+<td>Female</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5</td>
+<td>12</td>
+<td>0.500000</td>
+<td>Female</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>6</td>
+<td>12</td>
+<td>0.500000</td>
+<td>Female</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>7</td>
+<td>12</td>
+<td>0.500000</td>
+<td>Female</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>8</td>
+<td>18</td>
+<td>0.500000</td>
+<td>Female</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>9</td>
+<td>12</td>
+<td>0.500000</td>
+<td>Female</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>10</td>
+<td>12</td>
+<td>0.500000</td>
+<td>Female</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>11</td>
+<td>12</td>
+<td>0.480000</td>
+<td>Female</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>12</td>
+<td>10</td>
+<td>0.500000</td>
+<td>Female</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>13</td>
+<td>10</td>
+<td>0.500000</td>
+<td>Female</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>14</td>
+<td>12</td>
+<td>0.500000</td>
+<td>Female</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>15</td>
+<td>13</td>
+<td>0.541667</td>
+<td>Female</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>16</td>
+<td>12</td>
+<td>0.500000</td>
+<td>Female</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>17</td>
+<td>9</td>
+<td>0.450000</td>
+<td>Female</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>18</td>
+<td>11</td>
+<td>0.550000</td>
+<td>Female</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="plot-gender-ratio" class="level4">
+<h4 class="anchored" data-anchor-id="plot-gender-ratio">Plot Gender Ratio</h4>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    ggplot(final_contestants_df, aes(x<span class="op">=</span><span class="st">"season"</span>, y<span class="op">=</span><span class="st">"ratio"</span>, fill<span class="op">=</span><span class="st">"gender"</span>))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_bar(stat<span class="op">=</span><span class="st">"identity"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="tidytuesday-exercise_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="merge-split-datasets-encode-categorical-variables-and-select-features" class="level2">
+<h2 class="anchored" data-anchor-id="merge-split-datasets-encode-categorical-variables-and-select-features">Merge &amp; split datasets, encode categorical variables and select features</h2>
+<p>Question: Can predict the winner using the features gender, viewers_in_millions, tickets_to_hollywood, and audition city?</p>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge the dataframes</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> pd.merge(auditions_df, eliminations_df, on<span class="op">=</span><span class="st">'season'</span>, how<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> pd.merge(merged_df, finalists_df, left_on<span class="op">=</span>[<span class="st">'season'</span>, <span class="st">'contestant'</span>], right_on<span class="op">=</span>[<span class="st">'Season'</span>, <span class="st">'Contestant'</span>], how<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> pd.merge(merged_df, ratings_df, on<span class="op">=</span><span class="st">'season'</span>, how<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> pd.merge(merged_df, seasons_df, on<span class="op">=</span><span class="st">'season'</span>, how<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> pd.merge(merged_df, songs_df, on<span class="op">=</span>[<span class="st">'season'</span>, <span class="st">'contestant'</span>], how<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Handle missing values</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>merged_df.fillna(<span class="dv">0</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Feature selection</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> merged_df[[<span class="st">'gender'</span>, <span class="st">'viewers_in_millions'</span>, <span class="st">'winner'</span>, <span class="st">'audition_city'</span>, <span class="st">'tickets_to_hollywood'</span>]].drop_duplicates()</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Encoding categorical variables</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>label_encoders <span class="op">=</span> {}</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>categorical_columns <span class="op">=</span> merged_df.select_dtypes(include<span class="op">=</span>[<span class="st">'object'</span>]).columns</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> categorical_columns:</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    le <span class="op">=</span> LabelEncoder()</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    merged_df[column] <span class="op">=</span> le.fit_transform(merged_df[column].astype(<span class="bu">str</span>))</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    label_encoders[column] <span class="op">=</span> le</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Defining the target variable and features</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming 'winner' column in seasons_df as target</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>target <span class="op">=</span> <span class="st">'winner'</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> merged_df.columns.difference([target])</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> merged_df[features]</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> merged_df[target]</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Splitting the data into training and testing sets</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="random-forest-classifier" class="level2">
+<h2 class="anchored" data-anchor-id="random-forest-classifier">Random Forest Classifier</h2>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Training the model</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> RandomForestClassifier(n_estimators<span class="op">=</span><span class="dv">100</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, y_train)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Making predictions</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> model.predict(X_test)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluating the model</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>accuracy <span class="op">=</span> accuracy_score(y_test, y_pred)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>report <span class="op">=</span> classification_report(y_test, y_pred, output_dict<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Accuracy:"</span>, accuracy)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Report:"</span>, classification_report(y_test, y_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Accuracy: 0.9828503843879361
+Classification Report:               precision    recall  f1-score   support
+
+           0       0.98      1.00      0.99        94
+           1       1.00      0.98      0.99       108
+           2       1.00      0.98      0.99       110
+           3       1.00      1.00      1.00       126
+           4       1.00      1.00      1.00        96
+           5       0.98      1.00      0.99       109
+           6       0.97      0.95      0.96       152
+           7       1.00      1.00      1.00        71
+           8       1.00      1.00      1.00       124
+           9       0.86      0.86      0.86        36
+          10       1.00      1.00      1.00       134
+          11       0.72      0.90      0.80        31
+          12       1.00      1.00      1.00         1
+          13       1.00      1.00      1.00       114
+          14       0.96      0.98      0.97       107
+          15       1.00      0.98      0.99        98
+          16       1.00      1.00      1.00       107
+          17       0.99      0.93      0.96        73
+
+    accuracy                           0.98      1691
+   macro avg       0.97      0.98      0.97      1691
+weighted avg       0.98      0.98      0.98      1691
+</code></pre>
+</div>
+</div>
+</section>
+<section id="neural-network" class="level2">
+<h2 class="anchored" data-anchor-id="neural-network">Neural Network</h2>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neural_network <span class="im">import</span> MLPClassifier</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Training the neural network model</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>nn_model <span class="op">=</span> MLPClassifier(hidden_layer_sizes<span class="op">=</span>(<span class="dv">100</span>,), max_iter<span class="op">=</span><span class="dv">1000</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>nn_model.fit(X_train, y_train)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Making predictions</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> nn_model.predict(X_test)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluating the model</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>accuracy <span class="op">=</span> accuracy_score(y_test, y_pred)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>report <span class="op">=</span> classification_report(y_test, y_pred)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Accuracy:"</span>, accuracy)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Report:"</span>, report)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Accuracy: 0.8675340035481963
+Classification Report:               precision    recall  f1-score   support
+
+           0       0.97      0.97      0.97        94
+           1       0.95      0.97      0.96       108
+           2       0.87      0.83      0.85       110
+           3       0.79      0.82      0.80       126
+           4       0.68      0.56      0.62        96
+           5       0.89      0.93      0.91       109
+           6       0.77      0.91      0.83       152
+           7       0.97      0.96      0.96        71
+           8       0.81      0.88      0.84       124
+           9       0.54      0.19      0.29        36
+          10       0.84      0.87      0.85       134
+          11       0.46      0.52      0.48        31
+          12       1.00      1.00      1.00         1
+          13       0.95      0.97      0.96       114
+          14       0.94      0.90      0.92       107
+          15       1.00      0.98      0.99        98
+          16       0.98      0.97      0.98       107
+          17       0.92      0.81      0.86        73
+
+    accuracy                           0.87      1691
+   macro avg       0.85      0.84      0.84      1691
+weighted avg       0.86      0.87      0.86      1691
+</code></pre>
+</div>
+</div>
+</section>
+<section id="logistic-regression" class="level2">
+<h2 class="anchored" data-anchor-id="logistic-regression">Logistic Regression</h2>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Training the logistic regression model</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>lr_model <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>lr_model.fit(X_train, y_train)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Making predictions</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> lr_model.predict(X_test)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluating the model</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>accuracy <span class="op">=</span> accuracy_score(y_test, y_pred)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>report <span class="op">=</span> classification_report(y_test, y_pred)</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Accuracy:"</span>, accuracy)</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Report:"</span>, report)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Accuracy: 0.5340035481963336
+Classification Report:               precision    recall  f1-score   support
+
+           0       0.61      0.81      0.69        94
+           1       0.76      0.69      0.72       108
+           2       0.34      0.36      0.35       110
+           3       0.15      0.08      0.10       126
+           4       0.33      0.16      0.21        96
+           5       0.44      0.49      0.46       109
+           6       0.71      0.98      0.83       152
+           7       0.80      0.46      0.59        71
+           8       0.41      0.52      0.46       124
+           9       0.00      0.00      0.00        36
+          10       0.47      0.62      0.54       134
+          11       0.27      0.13      0.17        31
+          12       0.00      0.00      0.00         1
+          13       0.47      0.65      0.55       114
+          14       0.43      0.15      0.22       107
+          15       0.75      0.85      0.80        98
+          16       0.54      0.70      0.61       107
+          17       0.69      0.73      0.71        73
+
+    accuracy                           0.53      1691
+   macro avg       0.46      0.46      0.45      1691
+weighted avg       0.50      0.53      0.50      1691
+</code></pre>
+</div>
+</div>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>We trained 3 models to predict the American Idol winner using features: gender, viewers_in_millions, tickets_to_hollywood, and audition city. The three models we used were the random forest classifier, neural network, and logistic regression. <br></p>
+<section id="accuracy-scores" class="level4">
+<h4 class="anchored" data-anchor-id="accuracy-scores">Accuracy Scores</h4>
+<ul>
+<li>Random forest classifier: 0.9828503843879361</li>
+<li>Neural network: 0.8675340035481963</li>
+<li>Logistic regression: 0.5340035481963336</li>
+</ul>
+<p>The random classifier model had the greatest accuracy store, but such a high score might indicate that the model is overfitting.</p>
+
+
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
